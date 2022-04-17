@@ -8,9 +8,19 @@ A React component for [WinBox.js](https://github.com/nextapps-de/winbox), with f
 
 ![demo screenshot](https://github.com/rickonono3/react-winbox/demo.jpg)
 
+## Install
+
+```bash
+npm install --save react-winbox winbox@0.2.1
+# OR
+yarn add react-winbox winbox@0.2.1
+```
+
 ## Usage
 
 ```jsx
+import 'winbox/dist/css/winbox.min.css';
+
 <WinBox
   width={this.state.boxWidth ?? 500}
   height={300}
