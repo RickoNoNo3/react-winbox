@@ -6,7 +6,7 @@ A React component for [WinBox.js](https://github.com/nextapps-de/winbox), with f
 
 **Full type declaration for both JavaScript and TypeScript.**
 
-![demo screenshot](https://github.com/rickonono3/react-winbox/demo.jpg)
+![demo screenshot](https://github.com/RickoNoNo3/react-winbox/blob/main/demo.jpg)
 
 ## Usage
 
