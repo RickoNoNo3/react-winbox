@@ -36,8 +36,8 @@ import 'winbox/dist/css/winbox.min.css';
 ```
 
 ## Notice
-To open a winbox, just create it in your virtual DOM, that's enough.
-To close a winbox, just do not render it. It's safe.
-To change some properties of the window, just change the properties of WinBox Component. (the properties need [official methods](https://github.com/nextapps-de/winbox#manage-window-content) support. BTW, don't forget to setState or forceupdate to rerender the parent of the WinBox!)
+- To open a winbox, just create it in your virtual DOM, that's enough.
+- To close a winbox, just do not render it. It's safe.
+- To change some properties of the window, just change the properties of WinBox Component. (the properties need [official methods](https://github.com/nextapps-de/winbox#manage-window-content) support. BTW, don't forget to setState or forceupdate to rerender the parent of the WinBox!)
 
 ## See the official document for [WinBox.js](https://github.com/nextapps-de/winbox)
