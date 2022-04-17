@@ -2,7 +2,7 @@
 
 A React component for [WinBox.js](https://github.com/nextapps-de/winbox), with full Reactful props and state. Includes all configuration of WinBox.js by using React component props.
 
-**Use it just like other native components of you! Whatever the float window does.**
+## Use it just like other native components of you! Whatever the float window does.
 
 **Full type declaration for both JavaScript and TypeScript.**
 
