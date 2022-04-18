@@ -20,6 +20,7 @@ yarn add react-winbox winbox@0.2.1
 
 ```jsx
 import 'winbox/dist/css/winbox.min.css';
+import WinBox from 'react-winbox';
 
 <WinBox
   width={this.state.boxWidth ?? 500}
