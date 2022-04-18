@@ -130,7 +130,7 @@ isMax (): boolean // a wrapper getter for max field
 
 isMin (): boolean // a wrapper getter for min field
 
-isClosed (): boolean // REACT ONLY. Returns true if the winbox DOM element has been closed but the React compoennt not yet.
+isClosed (): boolean // REACT ONLY. Returns true if the winbox DOM element has been removed but the React component not yet.
 
 forceUpdate (callback?: () => void): void // REACT ONLY.
 
