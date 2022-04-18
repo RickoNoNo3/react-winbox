@@ -122,15 +122,15 @@ type WinBoxPropType = {
 > use React Ref to call these methods
 
 ```ts
-focus (): void // same as the native method.
+focus () => void // same as the native method.
 
-getId (): string | undefined // a wrapper getter for id field
+getId () => string | undefined // a wrapper getter for id field
 
-isMax (): boolean // a wrapper getter for max field
+isMax () => boolean // a wrapper getter for max field
 
-isMin (): boolean // a wrapper getter for min field
+isMin () => boolean // a wrapper getter for min field
 
-isClosed (): boolean // REACT ONLY. Returns true if the winbox DOM element has been removed but the React component not yet.
+isClosed () => boolean // REACT ONLY. Returns true if the winbox DOM element has been removed but the React component not yet.
 
 forceUpdate (callback?: () => void): void // REACT ONLY.
 
