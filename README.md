@@ -1,5 +1,7 @@
 # React-WinBox
 
+<a target="_blank" href="https://www.npmjs.com/package/react-winbox"><img src="https://img.shields.io/npm/v/react-winbox.svg"></a>
+
 A React component for [WinBox.js](https://github.com/nextapps-de/winbox), with full Reactful props and state. Includes all configuration of WinBox.js by using React component props.
 
 ## Use it just like other native components of you! Whatever the float window does.
@@ -34,6 +36,25 @@ import WinBox from 'react-winbox';
     <MyComponent myProps={1} onChange={this.handleChange}/>
   </div>
 </WinBox>
+```
+
+Or you can do more one step, to make a true 'windows manager', just like:
+
+```tsx
+const [windows, setWindows] = useState();
+// ...
+// some code to maintain a list of necessary windows info...
+// ...
+return (
+  <>
+    {windows.map(info => (
+      // assign any prop you want to WinBox
+      <WinBox {...info.neededProps}>
+        <div>Some children</div>
+      </WinBox>
+    ))}
+  </>
+);
 ```
 
 ## Notice
@@ -101,15 +122,15 @@ type WinBoxPropType = {
 > use React Ref to call these methods
 
 ```ts
-focus (): void // same as the native method.
+focus () => void // same as the native method.
 
-getId (): string | undefined // a wrapper getter for id field
+getId () => string | undefined // a wrapper getter for id field
 
-isMax (): boolean // a wrapper getter for max field
+isMax () => boolean // a wrapper getter for max field
 
-isMin (): boolean // a wrapper getter for min field
+isMin () => boolean // a wrapper getter for min field
 
-isClosed (): boolean // REACT ONLY. Returns true if the winbox DOM element has been closed but the React compoennt not yet.
+isClosed () => boolean // REACT ONLY. Returns true if the winbox DOM element has been removed but the React component not yet.
 
 forceUpdate (callback?: () => void): void // REACT ONLY.
 
