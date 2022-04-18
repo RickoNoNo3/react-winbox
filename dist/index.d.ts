@@ -2,6 +2,7 @@ import { Component, ReactChild, ReactNode } from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 declare type WinBoxPropType = {
     title: string;
+    id: string;
     children?: ReactChild | Iterable<ReactNode> | null;
     /**
      * When you use this, the children elements will be ignored.

@@ -4,6 +4,7 @@ import {createRoot, Root} from 'react-dom/client';
 
 type WinBoxPropType = {
   title: string
+  id?: string
   children?: ReactChild | Iterable<ReactNode> | null
   /**
    * When you use this, the children elements will be ignored.
@@ -30,8 +31,8 @@ type WinBoxPropType = {
   max?: boolean,
   min?: boolean,
 
-  x?: string | number,
-  y?: string | number,
+  x?: string | number | 'center',
+  y?: string | number | 'center',
   top?: string | number,
   bottom?: string | number,
   left?: string | number,
@@ -80,6 +81,8 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
 
   componentDidMount() {
     try {
+      if (document.getElementById(this.props.id))
+        throw 'The winbox already rendered. This may occurs in a map() method. Just ignore it.';
       this.winBoxObj = new OriginalWinBox({
         width: 300.01, // fix the equality when props updated
         height: 200.01,
@@ -88,7 +91,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
         left: 0.01,
         right: 0.01,
         ...this.props,
-        class: `${this.props.className}`,
+        class: `${this.props.className ?? ''}`,
         onClose: () => {
           this.handleClose();
           return this.props.onclose?.() ?? true;
@@ -179,17 +182,21 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
       || prevProps?.width !== this.props.width
       || prevProps?.height !== this.props.height
     ) {
-      this.winBoxObj.width = this.props.width ?? this.winBoxObj.width;
-      this.winBoxObj.height = this.props.height ?? this.winBoxObj.height;
-      this.winBoxObj?.resize(); // resize before move, see https://github.com/nextapps-de/winbox#chaining-methods
+      const width = this.props.width ?? this.winBoxObj.width;
+      const height = this.props.height ?? this.winBoxObj.height;
+      // use function params rather than assigning fields directly to abort the 'just support numbers' feature
+      // see https://github.com/nextapps-de/winbox#custom-position--size
+      this.winBoxObj?.resize(width, height);
     }
     if (force
       || prevProps?.x !== this.props.x
       || prevProps?.y !== this.props.y
     ) {
-      this.winBoxObj.x = this.props.x ?? this.winBoxObj.x;
-      this.winBoxObj.y = this.props.y ?? this.winBoxObj.y;
-      this.winBoxObj?.move();
+      const x = this.props.x ?? this.winBoxObj.x;
+      const y = this.props.y ?? this.winBoxObj.y;
+      // use function params rather than assigning fields directly to abort the 'just support numbers' feature
+      // see https://github.com/nextapps-de/winbox#custom-position--size
+      this.winBoxObj?.move(x, y);
     }
     if (force
       || prevProps?.top !== this.props.top
@@ -211,13 +218,13 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   };
 
   handleClose = () => {
-    this.reactRoot?.unmount();
+    setTimeout(() => this.reactRoot?.unmount());
     this.setState({closed: true});
   };
 
   render() {
     return (
-      <div style={{position: 'absolute'}}/>
+      <div/>
     );
   }
 }

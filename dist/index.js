@@ -98,16 +98,20 @@ var WinBox = /** @class */ (function (_super) {
             if (force
                 || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.width) !== _this.props.width
                 || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.height) !== _this.props.height) {
-                _this.winBoxObj.width = (_e = _this.props.width) !== null && _e !== void 0 ? _e : _this.winBoxObj.width;
-                _this.winBoxObj.height = (_f = _this.props.height) !== null && _f !== void 0 ? _f : _this.winBoxObj.height;
-                (_g = _this.winBoxObj) === null || _g === void 0 ? void 0 : _g.resize(); // resize before move, see https://github.com/nextapps-de/winbox#chaining-methods
+                var width = (_e = _this.props.width) !== null && _e !== void 0 ? _e : _this.winBoxObj.width;
+                var height = (_f = _this.props.height) !== null && _f !== void 0 ? _f : _this.winBoxObj.height;
+                // use function params rather than assigning fields directly to abort the 'just support numbers' feature
+                // see https://github.com/nextapps-de/winbox#custom-position--size
+                (_g = _this.winBoxObj) === null || _g === void 0 ? void 0 : _g.resize(width, height);
             }
             if (force
                 || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.x) !== _this.props.x
                 || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.y) !== _this.props.y) {
-                _this.winBoxObj.x = (_h = _this.props.x) !== null && _h !== void 0 ? _h : _this.winBoxObj.x;
-                _this.winBoxObj.y = (_j = _this.props.y) !== null && _j !== void 0 ? _j : _this.winBoxObj.y;
-                (_k = _this.winBoxObj) === null || _k === void 0 ? void 0 : _k.move();
+                var x = (_h = _this.props.x) !== null && _h !== void 0 ? _h : _this.winBoxObj.x;
+                var y = (_j = _this.props.y) !== null && _j !== void 0 ? _j : _this.winBoxObj.y;
+                // use function params rather than assigning fields directly to abort the 'just support numbers' feature
+                // see https://github.com/nextapps-de/winbox#custom-position--size
+                (_k = _this.winBoxObj) === null || _k === void 0 ? void 0 : _k.move(x, y);
             }
             if (force
                 || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.top) !== _this.props.top
@@ -127,8 +131,7 @@ var WinBox = /** @class */ (function (_super) {
             _this.maintainStyle();
         };
         _this.handleClose = function () {
-            var _a;
-            (_a = _this.reactRoot) === null || _a === void 0 ? void 0 : _a.unmount();
+            setTimeout(function () { var _a; return (_a = _this.reactRoot) === null || _a === void 0 ? void 0 : _a.unmount(); });
             _this.setState({ closed: true });
         };
         _this.state = {
@@ -138,9 +141,11 @@ var WinBox = /** @class */ (function (_super) {
     }
     WinBox.prototype.componentDidMount = function () {
         var _this = this;
-        var _a;
+        var _a, _b;
         try {
-            this.winBoxObj = new winbox_1.default(__assign(__assign({ width: 300.01, height: 200.01, top: 0.01, bottom: 0.01, left: 0.01, right: 0.01 }, this.props), { class: "".concat(this.props.className), onClose: function () {
+            if (document.getElementById(this.props.id))
+                throw 'The winbox already rendered. This may occurs in a map() method. Just ignore it.';
+            this.winBoxObj = new winbox_1.default(__assign(__assign({ width: 300.01, height: 200.01, top: 0.01, bottom: 0.01, left: 0.01, right: 0.01 }, this.props), { class: "".concat((_a = this.props.className) !== null && _a !== void 0 ? _a : ''), onClose: function () {
                     var _a, _b, _c;
                     _this.handleClose();
                     return (_c = (_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a)) !== null && _c !== void 0 ? _c : true;
@@ -150,7 +155,7 @@ var WinBox = /** @class */ (function (_super) {
         }
         catch (e) {
             console.error(e);
-            (_a = this.winBoxObj) === null || _a === void 0 ? void 0 : _a.close(true);
+            (_b = this.winBoxObj) === null || _b === void 0 ? void 0 : _b.close(true);
             this.setState({ closed: true });
         }
     };
@@ -175,7 +180,7 @@ var WinBox = /** @class */ (function (_super) {
         _super.prototype.forceUpdate.call(this, callback);
     };
     WinBox.prototype.render = function () {
-        return ((0, jsx_runtime_1.jsx)("div", { style: { position: 'absolute' } }));
+        return ((0, jsx_runtime_1.jsx)("div", {}));
     };
     return WinBox;
 }(react_1.Component));
