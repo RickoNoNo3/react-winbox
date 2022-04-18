@@ -38,6 +38,25 @@ import WinBox from 'react-winbox';
 </WinBox>
 ```
 
+Or you can do more one step, to make a true 'windows manager', just like:
+
+```tsx
+const [windows, setWindows] = useState();
+// ...
+// some code to maintain a list of necessary windows info...
+// ...
+return (
+  <>
+    {windows.map(info => (
+      // assign any prop you want to WinBox
+      <WinBox {...info.neededProps}>
+        <div>Some children</div>
+      </WinBox>
+    ))}
+  </>
+);
+```
+
 ## Notice
 - To open a winbox, just create it in your virtual DOM, that's enough.
 - To close a winbox, just do not render it. It's safe.
