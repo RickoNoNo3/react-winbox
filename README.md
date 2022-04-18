@@ -38,7 +38,7 @@ import WinBox from 'react-winbox';
 </WinBox>
 ```
 
-Or you can do more one step, to make a true 'windows manager', just like:
+Or you can do more one step, to make a genuine 'windows manager', just like:
 
 ```tsx
 const [windows, setWindows] = useState();
