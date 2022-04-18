@@ -36,7 +36,7 @@ var client_1 = require("react-dom/client");
 /**
  * # WinBox React Component
  *
- * Use refs to call focus(), isMax(), isMin(), getId() method if need. But for others, use props instead of refs.
+ * Use refs to call focus(), isMax(), isMin(), getId(), isClosed() methods if need. But for others, use props instead of refs.
  * @see https://github.com/rickonono3/react-winbox
  * @see https://github.com/nextapps-de/winbox
  */
@@ -48,6 +48,7 @@ var WinBox = /** @class */ (function (_super) {
         _this.getId = function () { var _a; return ((_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.id); };
         _this.isMax = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.max) !== null && _b !== void 0 ? _b : false); };
         _this.isMin = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.min) !== null && _b !== void 0 ? _b : false); };
+        _this.isClosed = function () { return (_this.state.closed); };
         _this.renderChildren = function () {
             if (_this.state.closed || !_this.winBoxObj)
                 return;

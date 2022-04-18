@@ -53,7 +53,7 @@ declare type WinBoxState = {
 /**
  * # WinBox React Component
  *
- * Use refs to call focus(), isMax(), isMin(), getId() method if need. But for others, use props instead of refs.
+ * Use refs to call focus(), isMax(), isMin(), getId(), isClosed() methods if need. But for others, use props instead of refs.
  * @see https://github.com/rickonono3/react-winbox
  * @see https://github.com/nextapps-de/winbox
  */
@@ -69,6 +69,7 @@ declare class WinBox extends Component<WinBoxPropType, WinBoxState> {
     getId: () => string | undefined;
     isMax: () => boolean;
     isMin: () => boolean;
+    isClosed: () => boolean;
     renderChildren: () => void;
     maintainStyle: () => void;
     maintain: (args?: {
