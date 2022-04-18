@@ -93,8 +93,11 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
         ...this.props,
         class: `${this.props.className ?? ''}`,
         onClose: () => {
-          this.handleClose();
-          return this.props.onclose?.() ?? true;
+          if (this.props.onclose?.() ?? true) { // the default is true
+            this.handleClose(); // only when ture, do close process.
+            return true;
+          }
+          return false;
         },
       });
       this.renderChildren();
