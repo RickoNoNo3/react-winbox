@@ -1,6 +1,6 @@
 {
   "name": "react-winbox",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "The React component for WinBox.js. Full Reactful props and state. A window manager for React",
   "private": false,
   "homepage": "https://github.com/rickonono3/react-winbox",
@@ -36,7 +36,7 @@
     ]
   },
   "files": [
-      "/dist",
-      "package.json"
+    "/dist",
+    "package.json"
   ]
 }
