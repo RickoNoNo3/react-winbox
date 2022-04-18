@@ -1,10 +1,10 @@
-import React, {Component, ReactChild} from 'react';
+import React, {Component, ReactChild, ReactNode} from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import {createRoot, Root} from 'react-dom/client';
 
 type WinBoxPropType = {
   title: string
-  children: ReactChild
+  children?: ReactChild | Iterable<ReactNode> | null
   /**
    * When you use this, the children elements will be ignored.
    */
@@ -133,18 +133,20 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   public isMin = (): boolean => (this.winBoxObj?.min ?? false);
 
   renderChildren = () => {
+    if (this.state.closed || !this.winBoxObj) return;
     if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
       return; // do nothing if url is set.
     if (!this.reactRoot) {
       // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children);
       this.reactRoot = createRoot(this.winBoxObj.body);
-      this.reactRoot.render(this.props.children);
-    } else {
+    }
+    if (this.props.children) {
       this.reactRoot.render(this.props.children);
     }
   };
 
   maintainStyle = () => {
+    if (this.state.closed || !this.winBoxObj) return;
     this.winBoxObj[this.props.noAnimation ? 'addClass' : 'removeClass']('no-animation');
     this.winBoxObj[this.props.noClose ? 'addClass' : 'removeClass']('no-close');
     this.winBoxObj[this.props.noFull ? 'addClass' : 'removeClass']('no-full');
@@ -159,6 +161,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   };
 
   maintain = (args ?: { force?: boolean, prevProps?: WinBoxPropType }) => {
+    if (this.state.closed || !this.winBoxObj) return;
     const {force, prevProps} = args ?? {};
     if (force || prevProps?.title !== this.props.title) {
       this.winBoxObj?.setTitle(this.props.title);
@@ -214,7 +217,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
 
   render() {
     return (
-      <div/>
+      <div style={{position: 'absolute'}}/>
     );
   }
 }
