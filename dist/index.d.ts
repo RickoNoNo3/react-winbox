@@ -1,8 +1,8 @@
-import { Component, ReactChild } from 'react';
+import { Component, ReactChild, ReactNode } from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 declare type WinBoxPropType = {
     title: string;
-    children: ReactChild;
+    children?: ReactChild | Iterable<ReactNode> | null;
     /**
      * When you use this, the children elements will be ignored.
      */
@@ -35,7 +35,7 @@ declare type WinBoxPropType = {
     fullscreen?: boolean;
     /**
      * see the following document for more detail about the argument and the return value.
-     * @see https://yulekeji.cn
+     * @see https://github.com/nextapps-de/winbox
      * @param force whether you should not abort the winbox to close.
      * @return canBeClosed - true if the winbox can be closed
      */

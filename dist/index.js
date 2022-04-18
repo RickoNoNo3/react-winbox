@@ -51,18 +51,21 @@ var WinBox = /** @class */ (function (_super) {
         _this.isMax = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.max) !== null && _b !== void 0 ? _b : false); };
         _this.isMin = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.min) !== null && _b !== void 0 ? _b : false); };
         _this.renderChildren = function () {
+            if (_this.state.closed || !_this.winBoxObj)
+                return;
             if (Object.keys(_this.props).indexOf('url') !== -1 && _this.props.url)
                 return; // do nothing if url is set.
             if (!_this.reactRoot) {
                 // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children);
                 _this.reactRoot = (0, client_1.createRoot)(_this.winBoxObj.body);
-                _this.reactRoot.render(_this.props.children);
             }
-            else {
+            if (_this.props.children) {
                 _this.reactRoot.render(_this.props.children);
             }
         };
         _this.maintainStyle = function () {
+            if (_this.state.closed || !_this.winBoxObj)
+                return;
             _this.winBoxObj[_this.props.noAnimation ? 'addClass' : 'removeClass']('no-animation');
             _this.winBoxObj[_this.props.noClose ? 'addClass' : 'removeClass']('no-close');
             _this.winBoxObj[_this.props.noFull ? 'addClass' : 'removeClass']('no-full');
@@ -77,6 +80,8 @@ var WinBox = /** @class */ (function (_super) {
         };
         _this.maintain = function (args) {
             var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
+            if (_this.state.closed || !_this.winBoxObj)
+                return;
             var _s = args !== null && args !== void 0 ? args : {}, force = _s.force, prevProps = _s.prevProps;
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.title) !== _this.props.title) {
                 (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.setTitle(_this.props.title);
@@ -170,7 +175,7 @@ var WinBox = /** @class */ (function (_super) {
         _super.prototype.forceUpdate.call(this, callback);
     };
     WinBox.prototype.render = function () {
-        return ((0, jsx_runtime_1.jsx)("div", {}));
+        return ((0, jsx_runtime_1.jsx)("div", { style: { position: 'absolute' } }));
     };
     return WinBox;
 }(react_1.Component));
