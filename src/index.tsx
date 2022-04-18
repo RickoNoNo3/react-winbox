@@ -42,7 +42,7 @@ type WinBoxPropType = {
 
   /**
    * see the following document for more detail about the argument and the return value.
-   * @see https://yulekeji.cn
+   * @see https://github.com/nextapps-de/winbox
    * @param force whether you should not abort the winbox to close.
    * @return canBeClosed - true if the winbox can be closed
    */
