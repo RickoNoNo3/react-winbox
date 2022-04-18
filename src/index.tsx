@@ -63,7 +63,7 @@ type WinBoxState = {
 /**
  * # WinBox React Component
  *
- * Use refs to call focus(), isMax(), isMin() method if need. But for others, use props instead of refs.
+ * Use refs to call focus(), isMax(), isMin(), getId() method if need. But for others, use props instead of refs.
  * @see https://github.com/rickonono3/react-winbox
  * @see https://github.com/nextapps-de/winbox
  */
@@ -81,15 +81,15 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
 
   componentDidMount() {
     try {
-      if (document.getElementById(this.props.id))
-        throw 'The winbox already rendered. This may occurs in a map() method. Just ignore it.';
+      if (this.props.id !== undefined && this.props.id !== null && document.getElementById(this.props.id))
+        throw 'The winbox has a duplicated id. Creating winbox aborted.';
       this.winBoxObj = new OriginalWinBox({
-        width: 300.01, // fix the equality when props updated
-        height: 200.01,
-        top: 0.01,
-        bottom: 0.01,
-        left: 0.01,
-        right: 0.01,
+        width: 300,
+        height: 200,
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
         ...this.props,
         class: `${this.props.className ?? ''}`,
         onClose: () => {
@@ -127,9 +127,9 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
     super.forceUpdate(callback);
   }
 
-  public focus = (): void => {
-    this.winBoxObj?.focus();
-  };
+  public focus = (): void => (this.winBoxObj?.focus());
+
+  public getId = (): string | undefined => (this.winBoxObj?.id);
 
   public isMax = (): boolean => (this.winBoxObj?.max ?? false);
 
@@ -184,7 +184,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
     ) {
       const width = this.props.width ?? this.winBoxObj.width;
       const height = this.props.height ?? this.winBoxObj.height;
-      // use function params rather than assigning fields directly to abort the 'just support numbers' feature
+      // use function params rather than assigning fields directly to avoid the 'just support numbers' feature
       // see https://github.com/nextapps-de/winbox#custom-position--size
       this.winBoxObj?.resize(width, height);
     }
@@ -194,7 +194,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
     ) {
       const x = this.props.x ?? this.winBoxObj.x;
       const y = this.props.y ?? this.winBoxObj.y;
-      // use function params rather than assigning fields directly to abort the 'just support numbers' feature
+      // use function params rather than assigning fields directly to avoid the 'just support numbers' feature
       // see https://github.com/nextapps-de/winbox#custom-position--size
       this.winBoxObj?.move(x, y);
     }

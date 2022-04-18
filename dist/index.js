@@ -36,7 +36,7 @@ var client_1 = require("react-dom/client");
 /**
  * # WinBox React Component
  *
- * Use refs to call focus(), isMax(), isMin() method if need. But for others, use props instead of refs.
+ * Use refs to call focus(), isMax(), isMin(), getId() method if need. But for others, use props instead of refs.
  * @see https://github.com/rickonono3/react-winbox
  * @see https://github.com/nextapps-de/winbox
  */
@@ -44,10 +44,8 @@ var WinBox = /** @class */ (function (_super) {
     __extends(WinBox, _super);
     function WinBox(props) {
         var _this = _super.call(this, props) || this;
-        _this.focus = function () {
-            var _a;
-            (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.focus();
-        };
+        _this.focus = function () { var _a; return ((_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.focus()); };
+        _this.getId = function () { var _a; return ((_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.id); };
         _this.isMax = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.max) !== null && _b !== void 0 ? _b : false); };
         _this.isMin = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.min) !== null && _b !== void 0 ? _b : false); };
         _this.renderChildren = function () {
@@ -100,7 +98,7 @@ var WinBox = /** @class */ (function (_super) {
                 || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.height) !== _this.props.height) {
                 var width = (_e = _this.props.width) !== null && _e !== void 0 ? _e : _this.winBoxObj.width;
                 var height = (_f = _this.props.height) !== null && _f !== void 0 ? _f : _this.winBoxObj.height;
-                // use function params rather than assigning fields directly to abort the 'just support numbers' feature
+                // use function params rather than assigning fields directly to avoid the 'just support numbers' feature
                 // see https://github.com/nextapps-de/winbox#custom-position--size
                 (_g = _this.winBoxObj) === null || _g === void 0 ? void 0 : _g.resize(width, height);
             }
@@ -109,7 +107,7 @@ var WinBox = /** @class */ (function (_super) {
                 || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.y) !== _this.props.y) {
                 var x = (_h = _this.props.x) !== null && _h !== void 0 ? _h : _this.winBoxObj.x;
                 var y = (_j = _this.props.y) !== null && _j !== void 0 ? _j : _this.winBoxObj.y;
-                // use function params rather than assigning fields directly to abort the 'just support numbers' feature
+                // use function params rather than assigning fields directly to avoid the 'just support numbers' feature
                 // see https://github.com/nextapps-de/winbox#custom-position--size
                 (_k = _this.winBoxObj) === null || _k === void 0 ? void 0 : _k.move(x, y);
             }
@@ -143,9 +141,9 @@ var WinBox = /** @class */ (function (_super) {
         var _this = this;
         var _a, _b;
         try {
-            if (document.getElementById(this.props.id))
-                throw 'The winbox already rendered. This may occurs in a map() method. Just ignore it.';
-            this.winBoxObj = new winbox_1.default(__assign(__assign({ width: 300.01, height: 200.01, top: 0.01, bottom: 0.01, left: 0.01, right: 0.01 }, this.props), { class: "".concat((_a = this.props.className) !== null && _a !== void 0 ? _a : ''), onClose: function () {
+            if (this.props.id !== undefined && this.props.id !== null && document.getElementById(this.props.id))
+                throw 'The winbox has a duplicated id. Creating winbox aborted.';
+            this.winBoxObj = new winbox_1.default(__assign(__assign({ width: 300, height: 200, top: 0, bottom: 0, left: 0, right: 0 }, this.props), { class: "".concat((_a = this.props.className) !== null && _a !== void 0 ? _a : ''), onClose: function () {
                     var _a, _b, _c;
                     _this.handleClose();
                     return (_c = (_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a)) !== null && _c !== void 0 ? _c : true;

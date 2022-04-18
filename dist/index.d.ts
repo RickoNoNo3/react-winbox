@@ -2,7 +2,7 @@ import { Component, ReactChild, ReactNode } from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 declare type WinBoxPropType = {
     title: string;
-    id: string;
+    id?: string;
     children?: ReactChild | Iterable<ReactNode> | null;
     /**
      * When you use this, the children elements will be ignored.
@@ -25,8 +25,8 @@ declare type WinBoxPropType = {
     background?: string;
     max?: boolean;
     min?: boolean;
-    x?: string | number;
-    y?: string | number;
+    x?: string | number | 'center';
+    y?: string | number | 'center';
     top?: string | number;
     bottom?: string | number;
     left?: string | number;
@@ -53,7 +53,7 @@ declare type WinBoxState = {
 /**
  * # WinBox React Component
  *
- * Use refs to call focus(), isMax(), isMin() method if need. But for others, use props instead of refs.
+ * Use refs to call focus(), isMax(), isMin(), getId() method if need. But for others, use props instead of refs.
  * @see https://github.com/rickonono3/react-winbox
  * @see https://github.com/nextapps-de/winbox
  */
@@ -66,6 +66,7 @@ declare class WinBox extends Component<WinBoxPropType, WinBoxState> {
     componentWillUnmount(): void;
     forceUpdate(callback?: () => void): void;
     focus: () => void;
+    getId: () => string | undefined;
     isMax: () => boolean;
     isMin: () => boolean;
     renderChildren: () => void;
