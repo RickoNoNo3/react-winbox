@@ -72,17 +72,22 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
 
   private reactRoot: Root | undefined;
 
+  private reactRootTarget: unknown;
+
   constructor(props) {
     super(props);
     this.state = {
       closed: false,
     };
+    this.reactRoot = undefined;
+    this.reactRootTarget = undefined;
+    this.winBoxObj = undefined;
   }
 
   componentDidMount() {
     try {
       if (this.props.id !== undefined && this.props.id !== null && document.getElementById(this.props.id))
-        throw 'The winbox has a duplicated id. Creating winbox aborted.';
+        throw 'duplicated window id';
       this.winBoxObj = new OriginalWinBox({
         width: 300,
         height: 200,
@@ -115,7 +120,6 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
 
   componentWillUnmount() {
     this.winBoxObj?.close(true);
-    this.handleClose();
   }
 
   public forceUpdate(callback?: () => void): void {
@@ -141,11 +145,12 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   public isClosed = (): boolean => (this.state.closed);
 
   renderChildren = () => {
-    if (this.state.closed || !this.winBoxObj) return;
+    if (!this.winBoxObj) return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
     if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
       return; // do nothing if url is set.
-    if (!this.reactRoot) {
+    if (!this.reactRoot || this.reactRootTarget !== this.winBoxObj.body) {
       // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children);
+      this.reactRootTarget = this.winBoxObj.body;
       this.reactRoot = createRoot(this.winBoxObj.body);
     }
     if (this.props.children) {
@@ -154,7 +159,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   };
 
   maintainStyle = () => {
-    if (this.state.closed || !this.winBoxObj) return;
+    if (!this.winBoxObj) return;
     this.winBoxObj[this.props.noAnimation ? 'addClass' : 'removeClass']('no-animation');
     this.winBoxObj[this.props.noClose ? 'addClass' : 'removeClass']('no-close');
     this.winBoxObj[this.props.noFull ? 'addClass' : 'removeClass']('no-full');
@@ -169,7 +174,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   };
 
   maintain = (args ?: { force?: boolean, prevProps?: WinBoxPropType }) => {
-    if (this.state.closed || !this.winBoxObj) return;
+    if (!this.winBoxObj) return;
     const {force, prevProps} = args ?? {};
     if (force || prevProps?.title !== this.props.title) {
       this.winBoxObj?.setTitle(this.props.title);
@@ -223,13 +228,14 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   };
 
   handleClose = () => {
-    setTimeout(() => this.reactRoot?.unmount());
+    this.reactRoot = undefined;
+    this.reactRootTarget = undefined;
     this.setState({closed: true});
   };
 
   render() {
     return (
-      <div/>
+      <div data-closed={this.state.closed}/>
     );
   }
 }

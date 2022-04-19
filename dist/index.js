@@ -50,12 +50,13 @@ var WinBox = /** @class */ (function (_super) {
         _this.isMin = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.min) !== null && _b !== void 0 ? _b : false); };
         _this.isClosed = function () { return (_this.state.closed); };
         _this.renderChildren = function () {
-            if (_this.state.closed || !_this.winBoxObj)
-                return;
+            if (!_this.winBoxObj)
+                return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
             if (Object.keys(_this.props).indexOf('url') !== -1 && _this.props.url)
                 return; // do nothing if url is set.
-            if (!_this.reactRoot) {
+            if (!_this.reactRoot || _this.reactRootTarget !== _this.winBoxObj.body) {
                 // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children);
+                _this.reactRootTarget = _this.winBoxObj.body;
                 _this.reactRoot = (0, client_1.createRoot)(_this.winBoxObj.body);
             }
             if (_this.props.children) {
@@ -63,7 +64,7 @@ var WinBox = /** @class */ (function (_super) {
             }
         };
         _this.maintainStyle = function () {
-            if (_this.state.closed || !_this.winBoxObj)
+            if (!_this.winBoxObj)
                 return;
             _this.winBoxObj[_this.props.noAnimation ? 'addClass' : 'removeClass']('no-animation');
             _this.winBoxObj[_this.props.noClose ? 'addClass' : 'removeClass']('no-close');
@@ -79,7 +80,7 @@ var WinBox = /** @class */ (function (_super) {
         };
         _this.maintain = function (args) {
             var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
-            if (_this.state.closed || !_this.winBoxObj)
+            if (!_this.winBoxObj)
                 return;
             var _s = args !== null && args !== void 0 ? args : {}, force = _s.force, prevProps = _s.prevProps;
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.title) !== _this.props.title) {
@@ -130,12 +131,16 @@ var WinBox = /** @class */ (function (_super) {
             _this.maintainStyle();
         };
         _this.handleClose = function () {
-            setTimeout(function () { var _a; return (_a = _this.reactRoot) === null || _a === void 0 ? void 0 : _a.unmount(); });
+            _this.reactRoot = undefined;
+            _this.reactRootTarget = undefined;
             _this.setState({ closed: true });
         };
         _this.state = {
             closed: false,
         };
+        _this.reactRoot = undefined;
+        _this.reactRootTarget = undefined;
+        _this.winBoxObj = undefined;
         return _this;
     }
     WinBox.prototype.componentDidMount = function () {
@@ -143,7 +148,7 @@ var WinBox = /** @class */ (function (_super) {
         var _a, _b;
         try {
             if (this.props.id !== undefined && this.props.id !== null && document.getElementById(this.props.id))
-                throw 'The winbox has a duplicated id. Creating winbox aborted.';
+                throw 'duplicated window id';
             this.winBoxObj = new winbox_1.default(__assign(__assign({ width: 300, height: 200, top: 0, bottom: 0, left: 0, right: 0 }, this.props), { class: "".concat((_a = this.props.className) !== null && _a !== void 0 ? _a : ''), onClose: function () {
                     var _a, _b, _c;
                     if ((_c = (_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a)) !== null && _c !== void 0 ? _c : true) { // the default is true
@@ -167,7 +172,6 @@ var WinBox = /** @class */ (function (_super) {
     WinBox.prototype.componentWillUnmount = function () {
         var _a;
         (_a = this.winBoxObj) === null || _a === void 0 ? void 0 : _a.close(true);
-        this.handleClose();
     };
     WinBox.prototype.forceUpdate = function (callback) {
         var _a;
@@ -182,7 +186,7 @@ var WinBox = /** @class */ (function (_super) {
         _super.prototype.forceUpdate.call(this, callback);
     };
     WinBox.prototype.render = function () {
-        return ((0, jsx_runtime_1.jsx)("div", {}));
+        return ((0, jsx_runtime_1.jsx)("div", { "data-closed": this.state.closed }));
     };
     return WinBox;
 }(react_1.Component));
