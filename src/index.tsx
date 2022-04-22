@@ -1,5 +1,6 @@
 import React, {Component, ReactChild, ReactNode} from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
+import 'winbox/dist/css/winbox.min.css';
 import ReactDOM, {Container} from 'react-dom';
 
 type WinBoxPropType = {
