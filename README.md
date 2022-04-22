@@ -19,7 +19,7 @@ yarn add react-winbox
 
 ## Usage
 
-To use WinBox, ensure the document body has a initial non-zero height, e.g. `100vh`.
+To use WinBox, ensure the document body has an initial non-zero height, e.g. `100vh`.
 
 ```jsx
 import WinBox from 'react-winbox';
