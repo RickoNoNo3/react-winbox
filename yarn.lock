@@ -35,14 +35,14 @@
 
 "@types/react-dom@^17.0.11":
   version "17.0.15"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.15.tgz#f2c8efde11521a4b7991e076cb9c70ba3bb0d156"
+  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-17.0.15.tgz"
   integrity sha512-Tr9VU9DvNoHDWlmecmcsE5ZZiUkYx+nKBzum4Oxe1K0yJVyBlfbq7H3eXjxXqJczBKqPGq3EgfTru4MgKb9+Yw==
   dependencies:
     "@types/react" "^17"
 
 "@types/react@^17", "@types/react@^17.0.39":
   version "17.0.44"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.44.tgz#c3714bd34dd551ab20b8015d9d0dbec812a51ec7"
+  resolved "https://registry.npmjs.org/@types/react/-/react-17.0.44.tgz"
   integrity sha512-Ye0nlw09GeMp2Suh8qoOv0odfgCoowfM/9MG6WeRD60Gq9wS90bdkdRtYbRkNhXOpG4H+YXGvj4wOWhAC0LJ1g==
   dependencies:
     "@types/prop-types" "*"
@@ -56,7 +56,7 @@
 
 "@types/winbox@^0.2.1":
   version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@types/winbox/-/winbox-0.2.1.tgz#cfab903a7021058271a72ded4965a9348e710349"
+  resolved "https://registry.npmjs.org/@types/winbox/-/winbox-0.2.1.tgz"
   integrity sha512-fN/UQjitix7v3yDmpvzKSnDyKIiOhU5LdAj5Wcf/eRpGapoLwBELAwvVZY/2OBw23PyPKwGZ07oZxBHyIO/e3A==
 
 "@typescript-eslint/eslint-plugin@^5.19.0":
@@ -844,7 +844,7 @@ which-boxed-primitive@^1.0.2:
 
 winbox@^0.2.1:
   version "0.2.1"
-  resolved "https://registry.yarnpkg.com/winbox/-/winbox-0.2.1.tgz#6ca7cd047fa52d9f3324884698ce8a9c9ba9bf27"
+  resolved "https://registry.npmjs.org/winbox/-/winbox-0.2.1.tgz"
   integrity sha512-K3PY+y+aWpkCpECGF2TqSi4w+OT+cuJHWbOKBjVerpexmdC6Is5m4y0gZ9rbxU2K+GszE1nH+d2okMAQTG05hg==
 
 yallist@^4.0.0:

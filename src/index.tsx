@@ -1,12 +1,12 @@
-import React, {Component, ReactChild, ReactNode} from 'react';
+import React, {Component, ReactChild, ReactElement, ReactNode} from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
-import ReactDOM, {Container} from 'react-dom';
+import ReactDOM, {Container, Renderer} from 'react-dom';
 
 type WinBoxPropType = {
   title: string
   id?: string
-  children?: ReactChild | Iterable<ReactNode> | null
+  children?: ReactElement | null
   /**
    * When you use this, the children elements will be ignored.
    */
@@ -71,7 +71,7 @@ type WinBoxState = {
 class WinBox extends Component<WinBoxPropType, WinBoxState> {
   public winBoxObj: OriginalWinBox;
 
-  private reactRoot: unknown;
+  private reactRoot: Renderer | undefined;
 
   private reactRootTarget: Container | undefined;
 
@@ -154,7 +154,8 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
       this.reactRootTarget = this.winBoxObj.body;
     }
     if (this.props.children) {
-      this.reactRoot = ReactDOM.render([<>{this.props.children}</>], this.reactRootTarget ?? null);
+      // this.reactRoot?.(this.props.children, this.reactRootTarget ?? null);
+      this.reactRoot?.(this.props.children, this.reactRootTarget ?? null);
     }
   };
 

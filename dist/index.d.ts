@@ -1,10 +1,10 @@
-import { Component, ReactChild, ReactNode } from 'react';
+import { Component, ReactElement } from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
 declare type WinBoxPropType = {
     title: string;
     id?: string;
-    children?: ReactChild | Iterable<ReactNode> | null;
+    children?: ReactElement | null;
     /**
      * When you use this, the children elements will be ignored.
      */
