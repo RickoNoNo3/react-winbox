@@ -1,7 +1,7 @@
 import React, {Component, ReactChild, ReactElement, ReactNode} from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
-import ReactDOM, {Container, Renderer} from 'react-dom';
+import ReactDOM, {Container, render, Renderer} from 'react-dom';
 
 type WinBoxPropType = {
   title: string
@@ -149,14 +149,11 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
     if (!this.winBoxObj) return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
     if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
       return; // do nothing if url is set.
-    if (!this.reactRoot || this.reactRootTarget !== this.winBoxObj.body) {
-      // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children);
+    if (/*!this.reactRoot ||*/ this.reactRootTarget !== this.winBoxObj.body) {
+      // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
       this.reactRootTarget = this.winBoxObj.body;
     }
-    if (this.props.children) {
-      // this.reactRoot?.(this.props.children, this.reactRootTarget ?? null);
-      this.reactRoot?.(this.props.children, this.reactRootTarget ?? null);
-    }
+    ReactDOM.render(this.props.children ?? <></>, this.reactRootTarget ?? null);
   };
 
   maintainStyle = () => {
