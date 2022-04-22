@@ -149,8 +149,8 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
     if (!this.winBoxObj) return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
     if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
       return; // do nothing if url is set.
-    if (!this.reactRoot || this.reactRootTarget !== this.winBoxObj.body) {
-      // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children);
+    if (/*!this.reactRoot ||*/ this.reactRootTarget !== this.winBoxObj.body) {
+      // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
       this.reactRootTarget = this.winBoxObj.body;
     }
     ReactDOM.render(this.props.children ?? <></>, this.reactRootTarget ?? null);

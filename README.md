@@ -15,15 +15,16 @@ A React controlled component for [WinBox.js](https://github.com/nextapps-de/winb
 ## Install
 
 ```bash
-npm install --save react-winbox winbox@0.2.1
+npm install --save react-winbox
 # OR
-yarn add react-winbox winbox@0.2.1
+yarn add react-winbox
 ```
 
 ## Usage
 
+To use WinBox, ensure the body has a non-zero height, e.g. `100vh`.
+
 ```jsx
-import 'winbox/dist/css/winbox.min.css';
 import WinBox from 'react-winbox';
 
 <WinBox
@@ -62,7 +63,7 @@ return (
 ## Notice
 - To open a winbox, just create it in your virtual DOM, that's enough.
 - To close a winbox, just do not render it. It's safe.
-- To change some properties of the window, just change the properties of WinBox Component. (the properties need [official methods](https://github.com/nextapps-de/winbox#manage-window-content) support. BTW, don't forget to setState or forceupdate to rerender the parent of the WinBox!)
+- To change some properties of the window, just change the properties of WinBox Component. (the properties need [official methods](https://github.com/nextapps-de/winbox#manage-window-content) support. BTW, don't forget to setState or forceUpdate to rerender the parent of the WinBox!)
 - If you want to operate the pure WinBox.js object manually (In winbox@0.2.1, it's needed only when you want to call `mount()` method), you can find a `winBoxObj` in the component ref. !!! Take care of the relationship of statement between WinBox Component and `winBoxObj`.
 
 ## Props and Methods
