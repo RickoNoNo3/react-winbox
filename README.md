@@ -3,7 +3,6 @@
 <a target="_blank" href="https://www.npmjs.com/package/react-winbox"><img src="https://img.shields.io/npm/v/react-winbox?style=flat-square"></a>
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rickonono3/react-winbox/Node.js%20CI/main?style=flat-square)
 
-
 A React controlled component for [WinBox.js](https://github.com/nextapps-de/winbox), with full Reactful props and state. Includes all configuration of WinBox.js by using React component props.
 
 **Full type declaration for both JavaScript and TypeScript.**
@@ -20,7 +19,7 @@ yarn add react-winbox
 
 ## Usage
 
-To use WinBox, ensure the body has a non-zero height, e.g. `100vh`.
+To use WinBox, ensure the document body has a initial non-zero height, e.g. `100vh`.
 
 ```jsx
 import WinBox from 'react-winbox';
