@@ -1,6 +1,6 @@
 import React, {Component, ReactChild, ReactNode} from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
-import {createRoot, Root} from 'react-dom/client';
+import ReactDOM from 'react-dom';
 
 type WinBoxPropType = {
   title: string
@@ -70,7 +70,7 @@ type WinBoxState = {
 class WinBox extends Component<WinBoxPropType, WinBoxState> {
   public winBoxObj: OriginalWinBox;
 
-  private reactRoot: Root | undefined;
+  private reactRoot: unknown;
 
   private reactRootTarget: unknown;
 
@@ -151,10 +151,9 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
     if (!this.reactRoot || this.reactRootTarget !== this.winBoxObj.body) {
       // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children);
       this.reactRootTarget = this.winBoxObj.body;
-      this.reactRoot = createRoot(this.winBoxObj.body);
     }
     if (this.props.children) {
-      this.reactRoot.render(this.props.children);
+      this.reactRoot = ReactDOM.render(<>{this.props.children}</>, this.reactRootTarget);
     }
   };
 

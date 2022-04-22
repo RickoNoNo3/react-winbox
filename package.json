@@ -1,33 +1,33 @@
 {
   "name": "react-winbox",
-  "version": "1.3.0",
+  "version": "1.3.3",
   "description": "The React component for WinBox.js. Full Reactful props and state. A window manager for React",
   "private": false,
   "homepage": "https://github.com/rickonono3/react-winbox",
+  "repository": {
+    "type": "git",
+    "url": "github:rickonono3/react-winbox"
+  },
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
+  "dependencies": {
+    "winbox": "^0.2.1"
+  },
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "winbox": "0.2.1"
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.5",
-    "@types/react-dom": "^18.0.1",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "@types/winbox": "^0.2.1",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "eslint-plugin-react": "^7.29.4",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.6.3",
-    "winbox": "0.2.1"
+    "typescript": "^4.6.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "buildTS": "tsc"
   },
   "eslintConfig": {
@@ -35,8 +35,5 @@
       "react-app"
     ]
   },
-  "files": [
-    "/dist",
-    "package.json"
-  ]
+  "files": [ "/dist" ]
 }
