@@ -33,6 +33,7 @@ var jsx_runtime_1 = require("react/jsx-runtime");
 var react_1 = require("react");
 var winbox_1 = __importDefault(require("winbox/src/js/winbox"));
 require("winbox/dist/css/winbox.min.css");
+var react_dom_1 = __importDefault(require("react-dom"));
 /**
  * # WinBox React Component
  *
@@ -59,10 +60,7 @@ var WinBox = /** @class */ (function (_super) {
                 // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children);
                 _this.reactRootTarget = _this.winBoxObj.body;
             }
-            if (_this.props.children) {
-                // this.reactRoot?.(this.props.children, this.reactRootTarget ?? null);
-                (_a = _this.reactRoot) === null || _a === void 0 ? void 0 : _a.call(_this, _this.props.children, (_b = _this.reactRootTarget) !== null && _b !== void 0 ? _b : null);
-            }
+            react_dom_1.default.render((_a = _this.props.children) !== null && _a !== void 0 ? _a : (0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, {}), (_b = _this.reactRootTarget) !== null && _b !== void 0 ? _b : null);
         };
         _this.maintainStyle = function () {
             if (!_this.winBoxObj)

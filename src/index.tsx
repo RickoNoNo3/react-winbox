@@ -1,7 +1,7 @@
 import React, {Component, ReactChild, ReactElement, ReactNode} from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
-import ReactDOM, {Container, Renderer} from 'react-dom';
+import ReactDOM, {Container, render, Renderer} from 'react-dom';
 
 type WinBoxPropType = {
   title: string
@@ -153,10 +153,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
       // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children);
       this.reactRootTarget = this.winBoxObj.body;
     }
-    if (this.props.children) {
-      // this.reactRoot?.(this.props.children, this.reactRootTarget ?? null);
-      this.reactRoot?.(this.props.children, this.reactRootTarget ?? null);
-    }
+    ReactDOM.render(this.props.children ?? <></>, this.reactRootTarget ?? null);
   };
 
   maintainStyle = () => {
