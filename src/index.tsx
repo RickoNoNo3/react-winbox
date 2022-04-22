@@ -1,6 +1,6 @@
 import React, {Component, ReactChild, ReactNode} from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
-import ReactDOM from 'react-dom';
+import ReactDOM, {Container} from 'react-dom';
 
 type WinBoxPropType = {
   title: string
@@ -72,7 +72,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
 
   private reactRoot: unknown;
 
-  private reactRootTarget: unknown;
+  private reactRootTarget: Container | undefined;
 
   constructor(props) {
     super(props);
@@ -153,7 +153,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
       this.reactRootTarget = this.winBoxObj.body;
     }
     if (this.props.children) {
-      this.reactRoot = ReactDOM.render(<>{this.props.children}</>, this.reactRootTarget);
+      this.reactRoot = ReactDOM.render([<>{this.props.children}</>], this.reactRootTarget ?? null);
     }
   };
 

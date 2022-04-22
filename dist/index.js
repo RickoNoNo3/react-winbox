@@ -32,7 +32,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_runtime_1 = require("react/jsx-runtime");
 var react_1 = require("react");
 var winbox_1 = __importDefault(require("winbox/src/js/winbox"));
-var client_1 = require("react-dom/client");
+var react_dom_1 = __importDefault(require("react-dom"));
 /**
  * # WinBox React Component
  *
@@ -50,6 +50,7 @@ var WinBox = /** @class */ (function (_super) {
         _this.isMin = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.min) !== null && _b !== void 0 ? _b : false); };
         _this.isClosed = function () { return (_this.state.closed); };
         _this.renderChildren = function () {
+            var _a;
             if (!_this.winBoxObj)
                 return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
             if (Object.keys(_this.props).indexOf('url') !== -1 && _this.props.url)
@@ -57,10 +58,9 @@ var WinBox = /** @class */ (function (_super) {
             if (!_this.reactRoot || _this.reactRootTarget !== _this.winBoxObj.body) {
                 // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children);
                 _this.reactRootTarget = _this.winBoxObj.body;
-                _this.reactRoot = (0, client_1.createRoot)(_this.winBoxObj.body);
             }
             if (_this.props.children) {
-                _this.reactRoot.render(_this.props.children);
+                _this.reactRoot = react_dom_1.default.render([(0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, { children: _this.props.children })], (_a = _this.reactRootTarget) !== null && _a !== void 0 ? _a : null);
             }
         };
         _this.maintainStyle = function () {
