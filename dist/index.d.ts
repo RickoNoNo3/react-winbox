@@ -1,5 +1,6 @@
 import { Component, ReactChild, ReactNode } from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
+import 'winbox/dist/css/winbox.min.css';
 declare type WinBoxPropType = {
     title: string;
     id?: string;

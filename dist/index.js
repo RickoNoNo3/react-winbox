@@ -32,6 +32,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_runtime_1 = require("react/jsx-runtime");
 var react_1 = require("react");
 var winbox_1 = __importDefault(require("winbox/src/js/winbox"));
+require("winbox/dist/css/winbox.min.css");
 var react_dom_1 = __importDefault(require("react-dom"));
 /**
  * # WinBox React Component
