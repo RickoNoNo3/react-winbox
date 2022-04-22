@@ -4,7 +4,7 @@ import 'winbox/dist/css/winbox.min.css';
 declare type WinBoxPropType = {
     title: string;
     id?: string;
-    children?: ReactElement | null;
+    children?: ReactElement | ReactElement[] | null;
     /**
      * When you use this, the children elements will be ignored.
      */

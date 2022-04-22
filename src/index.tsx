@@ -6,7 +6,7 @@ import ReactDOM, {Container, render, Renderer} from 'react-dom';
 type WinBoxPropType = {
   title: string
   id?: string
-  children?: ReactElement | null
+  children?: ReactElement | ReactElement[] | null
   /**
    * When you use this, the children elements will be ignored.
    */
@@ -153,7 +153,15 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
       // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
       this.reactRootTarget = this.winBoxObj.body;
     }
-    ReactDOM.render(this.props.children ?? <></>, this.reactRootTarget ?? null);
+    if (this.props.children) {
+      if (Array.isArray(this.props.children)) {
+        const children = this.props.children as ReactElement[];
+        ReactDOM.render(children ?? [], this.reactRootTarget ?? null);
+      } else {
+        const children = this.props.children as ReactElement;
+        ReactDOM.render(children, this.reactRootTarget ?? null);
+      }
+    }
   };
 
   maintainStyle = () => {

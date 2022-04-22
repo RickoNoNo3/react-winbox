@@ -56,11 +56,20 @@ var WinBox = /** @class */ (function (_super) {
                 return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
             if (Object.keys(_this.props).indexOf('url') !== -1 && _this.props.url)
                 return; // do nothing if url is set.
-            if (!_this.reactRoot || _this.reactRootTarget !== _this.winBoxObj.body) {
-                // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children);
+            if ( /*!this.reactRoot ||*/_this.reactRootTarget !== _this.winBoxObj.body) {
+                // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
                 _this.reactRootTarget = _this.winBoxObj.body;
             }
-            react_dom_1.default.render((_a = _this.props.children) !== null && _a !== void 0 ? _a : (0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, {}), (_b = _this.reactRootTarget) !== null && _b !== void 0 ? _b : null);
+            if (_this.props.children) {
+                if (Array.isArray(_this.props.children)) {
+                    var children = _this.props.children;
+                    react_dom_1.default.render(children !== null && children !== void 0 ? children : [], (_a = _this.reactRootTarget) !== null && _a !== void 0 ? _a : null);
+                }
+                else {
+                    var children = _this.props.children;
+                    react_dom_1.default.render(children, (_b = _this.reactRootTarget) !== null && _b !== void 0 ? _b : null);
+                }
+            }
         };
         _this.maintainStyle = function () {
             if (!_this.winBoxObj)
