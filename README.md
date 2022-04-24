@@ -137,4 +137,4 @@ forceUpdate (callback?: () => void): void // REACT ONLY.
 
 ```
 
-> Thanks for your reading. If any question or problem, feel free to issue it.
+> Thanks for your reading. If any questions or problems, feel free to issue them.
