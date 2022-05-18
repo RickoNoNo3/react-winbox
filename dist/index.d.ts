@@ -1,7 +1,7 @@
 import { Component, ReactElement } from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
-declare type WinBoxPropType = {
+export declare type WinBoxPropType = {
     title: string;
     id?: string;
     children?: ReactElement | ReactElement[] | null;
@@ -36,10 +36,12 @@ declare type WinBoxPropType = {
     width?: string | number;
     fullscreen?: boolean;
     /**
+     * If you want to remove the React WinBox component in `onclose` callback, be sure to wrap it within `setTimeout` so that the remove behavior occurs after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`
+     *
      * see the following document for more detail about the argument and the return value.
      * @see https://github.com/nextapps-de/winbox
      * @param force whether you should not abort the winbox to close.
-     * @return canBeClosed - true if the winbox can be closed
+     * @return noDefaultClose - true if the winbox does not need the default close process, for example, when it needs a confirmation to close.
      */
     onclose?: (force?: boolean) => boolean;
     onmove?: (x: number, y: number) => any;

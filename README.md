@@ -75,7 +75,7 @@ return (
 type WinBoxPropType = {
   title: string
   id?: string
-  children?: ReactChild | Iterable<ReactNode> | null
+  children?: ReactElement | ReactElement[] | null
   url?: string // When you use this, the children elements will be ignored.
 
   noAnimation?: boolean,
@@ -108,6 +108,7 @@ type WinBoxPropType = {
   width?: string | number,
   fullscreen?: boolean, // a wrapper prop for fullscreen() method
 
+  // If you want to remove the React WinBox component in `onclose` callback, be sure to wrap it within `setTimeout` so that the remove behavior occurs after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`
   onclose?: (force?: boolean) => boolean,
   onmove?: (x: number, y: number) => any,
   onresize?: (width: number, height: number) => any,

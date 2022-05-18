@@ -159,10 +159,10 @@ var WinBox = /** @class */ (function (_super) {
                 throw 'duplicated window id';
             this.winBoxObj = new winbox_1.default(__assign(__assign({ width: 300, height: 200, top: 0, bottom: 0, left: 0, right: 0 }, this.props), { class: "".concat((_a = this.props.className) !== null && _a !== void 0 ? _a : ''), onClose: function () {
                     var _a, _b, _c;
-                    if ((_c = (_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a)) !== null && _c !== void 0 ? _c : true) { // the default is true
-                        _this.handleClose(); // only when ture, do close process.
+                    if ((_c = (_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a)) !== null && _c !== void 0 ? _c : true) {
                         return true;
                     }
+                    _this.handleClose(); // only when false, do close process.
                     return false;
                 } }));
             this.renderChildren();
@@ -179,7 +179,10 @@ var WinBox = /** @class */ (function (_super) {
     };
     WinBox.prototype.componentWillUnmount = function () {
         var _a;
-        (_a = this.winBoxObj) === null || _a === void 0 ? void 0 : _a.close(true);
+        try {
+            (_a = this.winBoxObj) === null || _a === void 0 ? void 0 : _a.close(true);
+        }
+        catch (ignored) { }
     };
     WinBox.prototype.forceUpdate = function (callback) {
         var _a;

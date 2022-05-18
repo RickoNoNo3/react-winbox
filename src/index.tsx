@@ -43,6 +43,8 @@ export type WinBoxPropType = {
   fullscreen?: boolean,
 
   /**
+   * If you want to remove the React WinBox component in `onclose` callback, be sure to wrap it within `setTimeout` so that the remove behavior occurs after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`
+   *
    * see the following document for more detail about the argument and the return value.
    * @see https://github.com/nextapps-de/winbox
    * @param force whether you should not abort the winbox to close.
