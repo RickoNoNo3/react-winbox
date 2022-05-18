@@ -3,7 +3,7 @@ import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
 import ReactDOM, {Container, render, Renderer} from 'react-dom';
 
-type WinBoxPropType = {
+export type WinBoxPropType = {
   title: string
   id?: string
   children?: ReactElement | ReactElement[] | null
@@ -46,7 +46,7 @@ type WinBoxPropType = {
    * see the following document for more detail about the argument and the return value.
    * @see https://github.com/nextapps-de/winbox
    * @param force whether you should not abort the winbox to close.
-   * @return canBeClosed - true if the winbox can be closed
+   * @return noDefaultClose - true if the winbox does not need the default close process, for example, when it needs a confirmation to close.
    */
   onclose?: (force?: boolean) => boolean,
   onmove?: (x: number, y: number) => any,
@@ -99,10 +99,10 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
         ...this.props,
         class: `${this.props.className ?? ''}`,
         onClose: () => {
-          if (this.props.onclose?.() ?? true) { // the default is true
-            this.handleClose(); // only when ture, do close process.
+          if (this.props.onclose?.() ?? true) {
             return true;
           }
+          this.handleClose(); // only when false, do close process.
           return false;
         },
       });
