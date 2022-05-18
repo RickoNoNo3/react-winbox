@@ -120,7 +120,9 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   }
 
   componentWillUnmount() {
-    this.winBoxObj?.close(true);
+    try {
+      this.winBoxObj?.close(true);
+    } catch (ignored) {}
   }
 
   public forceUpdate(callback?: () => void): void {
