@@ -122,15 +122,12 @@ var WinBox = /** @class */ (function (_super) {
             _this.maintainStyle();
         };
         _this.handleClose = function () {
-            _this.reactRoot = undefined;
-            _this.reactRootTarget = undefined;
+            _this.winBoxObj = undefined;
             _this.setState({ closed: true });
         };
         _this.state = {
             closed: false,
         };
-        _this.reactRoot = undefined;
-        _this.reactRootTarget = undefined;
         _this.winBoxObj = undefined;
         return _this;
     }
@@ -140,9 +137,9 @@ var WinBox = /** @class */ (function (_super) {
         try {
             if (this.props.id !== undefined && this.props.id !== null && document.getElementById(this.props.id))
                 throw 'duplicated window id';
-            this.winBoxObj = new winbox_1.default(__assign(__assign({ width: 300, height: 200, top: 0, bottom: 0, left: 0, right: 0 }, this.props), { class: "".concat((_a = this.props.className) !== null && _a !== void 0 ? _a : ''), onClose: function () {
+            this.winBoxObj = new winbox_1.default(__assign(__assign({ width: 300, height: 200, top: 0, bottom: 0, left: 0, right: 0 }, this.props), { class: "".concat((_a = this.props.className) !== null && _a !== void 0 ? _a : ''), onclose: function (force) {
                     var _a, _b;
-                    if ((_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a)) {
+                    if ((_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a, force)) {
                         return true;
                     }
                     _this.handleClose(); // only when false, do close process.

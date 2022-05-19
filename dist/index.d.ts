@@ -62,8 +62,6 @@ declare type WinBoxState = {
  */
 declare class WinBox extends Component<WinBoxPropType, WinBoxState> {
     winBoxObj: OriginalWinBox;
-    private reactRoot;
-    private reactRootTarget;
     constructor(props: any);
     componentDidMount(): void;
     componentDidUpdate(prevProps: Readonly<WinBoxPropType>, prevState: Readonly<WinBoxState>): void;

@@ -1,7 +1,7 @@
 import React, {Component, ReactElement} from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
-import ReactDOM, {Container, Renderer} from 'react-dom';
+import ReactDOM from 'react-dom';
 
 export type WinBoxPropType = {
   title: string
@@ -47,10 +47,10 @@ export type WinBoxPropType = {
    *
    * see the following document for more detail about the argument and the return value.
    * @see https://github.com/nextapps-de/winbox
-   * @param force whether you should not abort the winbox to close.
+   * @param force Whether you should not abort the winbox to close. If this is true, you MUST return false, or some problems will happen.
    * @return noDefaultClose - true if the winbox does not need the default close process, for example, when it needs a confirmation to close instead of being closed suddenly.
    */
-  onclose?: (force?: boolean) => boolean | undefined | void,
+  onclose?: (force: boolean) => boolean | undefined | void,
   onmove?: (x: number, y: number) => any,
   onresize?: (width: number, height: number) => any,
   onblur?: () => any,
@@ -73,17 +73,11 @@ type WinBoxState = {
 class WinBox extends Component<WinBoxPropType, WinBoxState> {
   public winBoxObj: OriginalWinBox;
 
-  private reactRoot: Renderer | undefined;
-
-  private reactRootTarget: Container | undefined;
-
   constructor(props) {
     super(props);
     this.state = {
       closed: false,
     };
-    this.reactRoot = undefined;
-    this.reactRootTarget = undefined;
     this.winBoxObj = undefined;
   }
 
@@ -100,8 +94,8 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
         right: 0,
         ...this.props,
         class: `${this.props.className ?? ''}`,
-        onClose: () => {
-          if (this.props.onclose?.()) {
+        onclose: (force?: boolean) => {
+          if (this.props.onclose?.(force ?? false)) {
             return true;
           }
           this.handleClose(); // only when false, do close process.
@@ -222,8 +216,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   };
 
   handleClose = () => {
-    this.reactRoot = undefined;
-    this.reactRootTarget = undefined;
+    this.winBoxObj = undefined;
     this.setState({closed: true});
   };
 
