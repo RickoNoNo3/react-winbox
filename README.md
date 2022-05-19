@@ -121,7 +121,7 @@ type WinBoxPropType = {
   width?: string | number,
   fullscreen?: boolean, // a wrapper prop for fullscreen() method
 
-  onclose?: (force?: boolean) => boolean | undefined | void,
+  onclose?: (force: boolean) => boolean | undefined | void,
   onmove?: (x: number, y: number) => any,
   onresize?: (width: number, height: number) => any,
   onblur?: () => any,
