@@ -50,7 +50,7 @@ export type WinBoxPropType = {
    * @param force whether you should not abort the winbox to close.
    * @return noDefaultClose - true if the winbox does not need the default close process, for example, when it needs a confirmation to close instead of being closed suddenly.
    */
-  onclose?: (force?: boolean) => boolean | undefined,
+  onclose?: (force?: boolean) => boolean | undefined | void,
   onmove?: (x: number, y: number) => any,
   onresize?: (width: number, height: number) => any,
   onblur?: () => any,
