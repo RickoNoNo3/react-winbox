@@ -41,15 +41,27 @@ import WinBox from 'react-winbox';
 Or you can do more one step, to make a genuine 'windows manager', just like:
 
 ```tsx
-const [windows, setWindows] = useState();
+const [windows, setWindows] = useState([]);
 // ...
 // some code to maintain a list of necessary windows info...
 // ...
+const handleClose = (id) => {
+  let state = [...windows];
+  const index = state.findIndex(info => info.id === id);
+  if (index !== -1) {
+    state.splice(index, 1);
+    setTimeout(() => setWindows(state));
+  }
+};
 return (
   <>
     {windows.map(info => (
-      // assign any prop you want to WinBox
-      <WinBox {...info.neededProps}>
+      <WinBox 
+        key={info.id} 
+        id={info.id} 
+        onclose={() => handleClose(info.id)}
+        {...info.neededProps} // assign any props you want to WinBox
+      >
         <div>Some children</div>
       </WinBox>
     ))}
