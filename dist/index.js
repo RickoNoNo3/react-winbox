@@ -29,7 +29,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var jsx_runtime_1 = require("react/jsx-runtime");
 var react_1 = require("react");
 var winbox_1 = __importDefault(require("winbox/src/js/winbox"));
 require("winbox/dist/css/winbox.min.css");
@@ -50,27 +49,24 @@ var WinBox = /** @class */ (function (_super) {
         _this.isMax = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.max) !== null && _b !== void 0 ? _b : false); };
         _this.isMin = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.min) !== null && _b !== void 0 ? _b : false); };
         _this.isClosed = function () { return (_this.state.closed); };
-        _this.renderChildren = function () {
-            var _a, _b;
-            if (!_this.winBoxObj)
-                return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
-            if (Object.keys(_this.props).indexOf('url') !== -1 && _this.props.url)
-                return; // do nothing if url is set.
-            if ( /*!this.reactRoot ||*/_this.reactRootTarget !== _this.winBoxObj.body) {
-                // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
-                _this.reactRootTarget = _this.winBoxObj.body;
-            }
-            if (_this.props.children) {
-                if (Array.isArray(_this.props.children)) {
-                    var children = _this.props.children;
-                    react_dom_1.default.render(children !== null && children !== void 0 ? children : [], (_a = _this.reactRootTarget) !== null && _a !== void 0 ? _a : null);
-                }
-                else {
-                    var children = _this.props.children;
-                    react_dom_1.default.render(children, (_b = _this.reactRootTarget) !== null && _b !== void 0 ? _b : null);
-                }
-            }
-        };
+        //renderChildren = () => {
+        //  if (!this.winBoxObj) return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
+        //  if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
+        //    return; // do nothing if url is set.
+        //  if (/*!this.reactRoot ||*/ this.reactRootTarget !== this.winBoxObj.body) {
+        //    // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
+        //    this.reactRootTarget = this.winBoxObj.body;
+        //  }
+        //  if (this.props.children) {
+        //    if (Array.isArray(this.props.children)) {
+        //      const children = this.props.children as ReactElement[];
+        //      ReactDOM.render(children ?? [], this.reactRootTarget ?? null);
+        //    } else {
+        //      const children = this.props.children as ReactElement;
+        //      ReactDOM.render(children, this.reactRootTarget ?? null);
+        //    }
+        //  }
+        //};
         _this.maintainStyle = function () {
             if (!_this.winBoxObj)
                 return;
@@ -135,7 +131,7 @@ var WinBox = /** @class */ (function (_super) {
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.url) !== _this.props.url) {
                 (_r = _this.winBoxObj) === null || _r === void 0 ? void 0 : _r.setUrl(_this.props.url);
             }
-            _this.renderChildren();
+            // this.renderChildren();
             _this.maintainStyle();
         };
         _this.handleClose = function () {
@@ -165,7 +161,7 @@ var WinBox = /** @class */ (function (_super) {
                     _this.handleClose(); // only when false, do close process.
                     return false;
                 } }));
-            this.renderChildren();
+            // this.renderChildren();
             this.maintainStyle();
         }
         catch (e) {
@@ -197,7 +193,11 @@ var WinBox = /** @class */ (function (_super) {
         _super.prototype.forceUpdate.call(this, callback);
     };
     WinBox.prototype.render = function () {
-        return ((0, jsx_runtime_1.jsx)("div", { "data-closed": this.state.closed }));
+        if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
+            return null; // do nothing if url is set.
+        if (!this.props.children || !this.winBoxObj || !this.winBoxObj.body)
+            return null;
+        return react_dom_1.default.createPortal(this.props.children, this.winBoxObj.body);
     };
     return WinBox;
 }(react_1.Component));

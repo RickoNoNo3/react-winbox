@@ -1,4 +1,4 @@
-import { Component, ReactElement } from 'react';
+import React, { Component, ReactElement } from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
 export declare type WinBoxPropType = {
@@ -74,13 +74,12 @@ declare class WinBox extends Component<WinBoxPropType, WinBoxState> {
     isMax: () => boolean;
     isMin: () => boolean;
     isClosed: () => boolean;
-    renderChildren: () => void;
     maintainStyle: () => void;
     maintain: (args?: {
         force?: boolean | undefined;
         prevProps?: WinBoxPropType | undefined;
     } | undefined) => void;
     handleClose: () => void;
-    render(): JSX.Element;
+    render(): React.ReactPortal | null;
 }
 export default WinBox;

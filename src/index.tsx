@@ -108,7 +108,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
           return false;
         },
       });
-      this.renderChildren();
+      // this.renderChildren();
       this.maintainStyle();
     } catch (e) {
       console.error(e);
@@ -149,24 +149,24 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
 
   public isClosed = (): boolean => (this.state.closed);
 
-  renderChildren = () => {
-    if (!this.winBoxObj) return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
-    if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
-      return; // do nothing if url is set.
-    if (/*!this.reactRoot ||*/ this.reactRootTarget !== this.winBoxObj.body) {
-      // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
-      this.reactRootTarget = this.winBoxObj.body;
-    }
-    if (this.props.children) {
-      if (Array.isArray(this.props.children)) {
-        const children = this.props.children as ReactElement[];
-        ReactDOM.render(children ?? [], this.reactRootTarget ?? null);
-      } else {
-        const children = this.props.children as ReactElement;
-        ReactDOM.render(children, this.reactRootTarget ?? null);
-      }
-    }
-  };
+  //renderChildren = () => {
+  //  if (!this.winBoxObj) return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
+  //  if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
+  //    return; // do nothing if url is set.
+  //  if (/*!this.reactRoot ||*/ this.reactRootTarget !== this.winBoxObj.body) {
+  //    // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
+  //    this.reactRootTarget = this.winBoxObj.body;
+  //  }
+  //  if (this.props.children) {
+  //    if (Array.isArray(this.props.children)) {
+  //      const children = this.props.children as ReactElement[];
+  //      ReactDOM.render(children ?? [], this.reactRootTarget ?? null);
+  //    } else {
+  //      const children = this.props.children as ReactElement;
+  //      ReactDOM.render(children, this.reactRootTarget ?? null);
+  //    }
+  //  }
+  //};
 
   maintainStyle = () => {
     if (!this.winBoxObj) return;
@@ -233,7 +233,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
     if (force || prevProps?.url !== this.props.url) {
       this.winBoxObj?.setUrl(this.props.url);
     }
-    this.renderChildren();
+    // this.renderChildren();
     this.maintainStyle();
   };
 
@@ -244,9 +244,11 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   };
 
   render() {
-    return (
-      <div data-closed={this.state.closed}/>
-    );
+    if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
+      return null; // do nothing if url is set.
+    if (!this.props.children || !this.winBoxObj || !this.winBoxObj.body)
+      return null;
+    return ReactDOM.createPortal(this.props.children, this.winBoxObj.body);
   }
 }
 
