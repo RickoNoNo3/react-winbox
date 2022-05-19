@@ -139,7 +139,7 @@ var WinBox = /** @class */ (function (_super) {
                 throw 'duplicated window id';
             this.winBoxObj = new winbox_1.default(__assign(__assign({ width: 300, height: 200, top: 0, bottom: 0, left: 0, right: 0 }, this.props), { class: "".concat((_a = this.props.className) !== null && _a !== void 0 ? _a : ''), onclose: function (force) {
                     var _a, _b;
-                    if ((_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a, force)) {
+                    if ((_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a, force !== null && force !== void 0 ? force : false)) {
                         return true;
                     }
                     _this.handleClose(); // only when false, do close process.
