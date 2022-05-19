@@ -29,6 +29,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var jsx_runtime_1 = require("react/jsx-runtime");
 var react_1 = require("react");
 var winbox_1 = __importDefault(require("winbox/src/js/winbox"));
 require("winbox/dist/css/winbox.min.css");
@@ -88,16 +89,20 @@ var WinBox = /** @class */ (function (_super) {
                 return;
             var _s = args !== null && args !== void 0 ? args : {}, force = _s.force, prevProps = _s.prevProps;
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.title) !== _this.props.title) {
-                (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.setTitle(_this.props.title);
+                if (_this.props.title !== undefined)
+                    (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.setTitle(_this.props.title);
             }
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.fullscreen) !== _this.props.fullscreen) {
-                (_b = _this.winBoxObj) === null || _b === void 0 ? void 0 : _b.fullscreen(_this.props.fullscreen);
+                if (_this.props.fullscreen !== undefined)
+                    (_b = _this.winBoxObj) === null || _b === void 0 ? void 0 : _b.fullscreen(_this.props.fullscreen);
             }
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.min) !== _this.props.min) {
-                (_c = _this.winBoxObj) === null || _c === void 0 ? void 0 : _c.minimize(_this.props.min);
+                if (_this.props.min !== undefined)
+                    (_c = _this.winBoxObj) === null || _c === void 0 ? void 0 : _c.minimize(_this.props.min);
             }
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.max) !== _this.props.max) {
-                (_d = _this.winBoxObj) === null || _d === void 0 ? void 0 : _d.maximize(_this.props.max);
+                if (_this.props.max !== undefined)
+                    (_d = _this.winBoxObj) === null || _d === void 0 ? void 0 : _d.maximize(_this.props.max);
             }
             if (force
                 || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.width) !== _this.props.width
@@ -129,7 +134,8 @@ var WinBox = /** @class */ (function (_super) {
                 (_q = _this.winBoxObj) === null || _q === void 0 ? void 0 : _q.move();
             }
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.url) !== _this.props.url) {
-                (_r = _this.winBoxObj) === null || _r === void 0 ? void 0 : _r.setUrl(_this.props.url);
+                if (_this.props.url !== undefined)
+                    (_r = _this.winBoxObj) === null || _r === void 0 ? void 0 : _r.setUrl(_this.props.url);
             }
             // this.renderChildren();
             _this.maintainStyle();
@@ -162,7 +168,8 @@ var WinBox = /** @class */ (function (_super) {
                     return false;
                 } }));
             // this.renderChildren();
-            this.maintainStyle();
+            // this.maintainStyle();
+            this.forceUpdate();
         }
         catch (e) {
             console.error(e);
@@ -195,9 +202,9 @@ var WinBox = /** @class */ (function (_super) {
     WinBox.prototype.render = function () {
         if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
             return null; // do nothing if url is set.
-        if (!this.props.children || !this.winBoxObj || !this.winBoxObj.body)
+        if (!this.winBoxObj || !this.winBoxObj.body)
             return null;
-        return react_dom_1.default.createPortal(this.props.children, this.winBoxObj.body);
+        return react_dom_1.default.createPortal((0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, { children: this.props.children }), this.winBoxObj.body);
     };
     return WinBox;
 }(react_1.Component));

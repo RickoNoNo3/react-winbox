@@ -1,7 +1,7 @@
-import React, {Component, ReactChild, ReactElement, ReactNode} from 'react';
+import React, {Component, ReactElement} from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
-import ReactDOM, {Container, render, Renderer} from 'react-dom';
+import ReactDOM, {Container, Renderer} from 'react-dom';
 
 export type WinBoxPropType = {
   title: string
@@ -109,7 +109,8 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
         },
       });
       // this.renderChildren();
-      this.maintainStyle();
+      // this.maintainStyle();
+      this.forceUpdate();
     } catch (e) {
       console.error(e);
       this.winBoxObj?.close(true);
@@ -187,16 +188,20 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
     if (!this.winBoxObj) return;
     const {force, prevProps} = args ?? {};
     if (force || prevProps?.title !== this.props.title) {
-      this.winBoxObj?.setTitle(this.props.title);
+      if (this.props.title !== undefined)
+        this.winBoxObj?.setTitle(this.props.title);
     }
     if (force || prevProps?.fullscreen !== this.props.fullscreen) {
-      this.winBoxObj?.fullscreen(this.props.fullscreen);
+      if (this.props.fullscreen !== undefined)
+        this.winBoxObj?.fullscreen(this.props.fullscreen);
     }
     if (force || prevProps?.min !== this.props.min) {
-      this.winBoxObj?.minimize(this.props.min);
+      if (this.props.min !== undefined)
+        this.winBoxObj?.minimize(this.props.min);
     }
     if (force || prevProps?.max !== this.props.max) {
-      this.winBoxObj?.maximize(this.props.max);
+      if (this.props.max !== undefined)
+        this.winBoxObj?.maximize(this.props.max);
     }
     if (force
       || prevProps?.width !== this.props.width
@@ -231,7 +236,8 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
       this.winBoxObj?.move();
     }
     if (force || prevProps?.url !== this.props.url) {
-      this.winBoxObj?.setUrl(this.props.url);
+      if (this.props.url !== undefined)
+        this.winBoxObj?.setUrl(this.props.url);
     }
     // this.renderChildren();
     this.maintainStyle();
@@ -246,9 +252,9 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   render() {
     if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
       return null; // do nothing if url is set.
-    if (!this.props.children || !this.winBoxObj || !this.winBoxObj.body)
+    if (!this.winBoxObj || !this.winBoxObj.body)
       return null;
-    return ReactDOM.createPortal(this.props.children, this.winBoxObj.body);
+    return ReactDOM.createPortal(<>{this.props.children}</>, this.winBoxObj.body);
   }
 }
 
