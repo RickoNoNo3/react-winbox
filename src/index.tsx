@@ -1,7 +1,7 @@
 import React, {Component, ReactElement} from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
-import ReactDOM, {Container, Renderer} from 'react-dom';
+import ReactDOM from 'react-dom';
 
 export type WinBoxPropType = {
   title: string
@@ -73,17 +73,11 @@ type WinBoxState = {
 class WinBox extends Component<WinBoxPropType, WinBoxState> {
   public winBoxObj: OriginalWinBox;
 
-  private reactRoot: Renderer | undefined;
-
-  private reactRootTarget: Container | undefined;
-
   constructor(props) {
     super(props);
     this.state = {
       closed: false,
     };
-    this.reactRoot = undefined;
-    this.reactRootTarget = undefined;
     this.winBoxObj = undefined;
   }
 
@@ -100,8 +94,8 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
         right: 0,
         ...this.props,
         class: `${this.props.className ?? ''}`,
-        onClose: () => {
-          if (this.props.onclose?.()) {
+        onclose: (force?: boolean) => {
+          if (this.props.onclose?.(force)) {
             return true;
           }
           this.handleClose(); // only when false, do close process.
@@ -222,8 +216,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   };
 
   handleClose = () => {
-    this.reactRoot = undefined;
-    this.reactRootTarget = undefined;
+    this.winBoxObj = undefined;
     this.setState({closed: true});
   };
 
