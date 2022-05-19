@@ -50,7 +50,7 @@ export type WinBoxPropType = {
    * @param force whether you should not abort the winbox to close.
    * @return noDefaultClose - true if the winbox does not need the default close process, for example, when it needs a confirmation to close instead of being closed suddenly.
    */
-  onclose?: (force?: boolean) => boolean,
+  onclose?: (force?: boolean) => boolean | undefined,
   onmove?: (x: number, y: number) => any,
   onresize?: (width: number, height: number) => any,
   onblur?: () => any,
@@ -101,15 +101,13 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
         ...this.props,
         class: `${this.props.className ?? ''}`,
         onClose: () => {
-          if (this.props.onclose?.() ?? true) {
+          if (this.props.onclose?.()) {
             return true;
           }
           this.handleClose(); // only when false, do close process.
           return false;
         },
       });
-      // this.renderChildren();
-      // this.maintainStyle();
       this.forceUpdate();
     } catch (e) {
       console.error(e);
@@ -149,25 +147,6 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   public isMin = (): boolean => (this.winBoxObj?.min ?? false);
 
   public isClosed = (): boolean => (this.state.closed);
-
-  //renderChildren = () => {
-  //  if (!this.winBoxObj) return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
-  //  if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
-  //    return; // do nothing if url is set.
-  //  if (/*!this.reactRoot ||*/ this.reactRootTarget !== this.winBoxObj.body) {
-  //    // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
-  //    this.reactRootTarget = this.winBoxObj.body;
-  //  }
-  //  if (this.props.children) {
-  //    if (Array.isArray(this.props.children)) {
-  //      const children = this.props.children as ReactElement[];
-  //      ReactDOM.render(children ?? [], this.reactRootTarget ?? null);
-  //    } else {
-  //      const children = this.props.children as ReactElement;
-  //      ReactDOM.render(children, this.reactRootTarget ?? null);
-  //    }
-  //  }
-  //};
 
   maintainStyle = () => {
     if (!this.winBoxObj) return;
@@ -239,7 +218,6 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
       if (this.props.url !== undefined)
         this.winBoxObj?.setUrl(this.props.url);
     }
-    // this.renderChildren();
     this.maintainStyle();
   };
 
