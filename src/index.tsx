@@ -47,10 +47,10 @@ export type WinBoxPropType = {
    *
    * see the following document for more detail about the argument and the return value.
    * @see https://github.com/nextapps-de/winbox
-   * @param force whether you should not abort the winbox to close.
+   * @param force Whether you should not abort the winbox to close. If this is true, you MUST return false, or some problems will happen.
    * @return noDefaultClose - true if the winbox does not need the default close process, for example, when it needs a confirmation to close instead of being closed suddenly.
    */
-  onclose?: (force?: boolean) => boolean | undefined | void,
+  onclose?: (force: boolean) => boolean | undefined | void,
   onmove?: (x: number, y: number) => any,
   onresize?: (width: number, height: number) => any,
   onblur?: () => any,
@@ -95,7 +95,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
         ...this.props,
         class: `${this.props.className ?? ''}`,
         onclose: (force?: boolean) => {
-          if (this.props.onclose?.(force)) {
+          if (this.props.onclose?.(force ?? false)) {
             return true;
           }
           this.handleClose(); // only when false, do close process.
