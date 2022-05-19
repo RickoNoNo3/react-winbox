@@ -60,6 +60,7 @@ return (
 ## Notice
 - To open a winbox, just create it in your virtual DOM, that's enough.
 - To close a winbox, just do not render it. It's safe.
+- `onclose` is called BEFORE the winbox goes to close process. So if you want to destroy the React WinBox component in it, be sure to wrap destroy actions within `setTimeout` so that they occur after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`.
 - To change some properties of the window, just change the properties of WinBox Component. (the properties need [official methods](https://github.com/nextapps-de/winbox#manage-window-content) support. BTW, don't forget to setState or forceUpdate to rerender the parent of the WinBox!)
 - If you want to operate the pure WinBox.js object manually (In winbox@0.2.1, it's needed only when you want to call `mount()` method), you can find a `winBoxObj` in the component ref. !!! Take care of the relationship of statement between WinBox Component and `winBoxObj`.
 
@@ -108,7 +109,6 @@ type WinBoxPropType = {
   width?: string | number,
   fullscreen?: boolean, // a wrapper prop for fullscreen() method
 
-  // If you want to remove the React WinBox component in `onclose` callback, be sure to wrap it within `setTimeout` so that the remove behavior occurs after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`
   onclose?: (force?: boolean) => boolean,
   onmove?: (x: number, y: number) => any,
   onresize?: (width: number, height: number) => any,
