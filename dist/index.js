@@ -50,27 +50,6 @@ var WinBox = /** @class */ (function (_super) {
         _this.isMax = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.max) !== null && _b !== void 0 ? _b : false); };
         _this.isMin = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.min) !== null && _b !== void 0 ? _b : false); };
         _this.isClosed = function () { return (_this.state.closed); };
-        _this.renderChildren = function () {
-            var _a, _b;
-            if (!_this.winBoxObj)
-                return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
-            if (Object.keys(_this.props).indexOf('url') !== -1 && _this.props.url)
-                return; // do nothing if url is set.
-            if ( /*!this.reactRoot ||*/_this.reactRootTarget !== _this.winBoxObj.body) {
-                // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
-                _this.reactRootTarget = _this.winBoxObj.body;
-            }
-            if (_this.props.children) {
-                if (Array.isArray(_this.props.children)) {
-                    var children = _this.props.children;
-                    react_dom_1.default.render(children !== null && children !== void 0 ? children : [], (_a = _this.reactRootTarget) !== null && _a !== void 0 ? _a : null);
-                }
-                else {
-                    var children = _this.props.children;
-                    react_dom_1.default.render(children, (_b = _this.reactRootTarget) !== null && _b !== void 0 ? _b : null);
-                }
-            }
-        };
         _this.maintainStyle = function () {
             if (!_this.winBoxObj)
                 return;
@@ -92,16 +71,20 @@ var WinBox = /** @class */ (function (_super) {
                 return;
             var _s = args !== null && args !== void 0 ? args : {}, force = _s.force, prevProps = _s.prevProps;
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.title) !== _this.props.title) {
-                (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.setTitle(_this.props.title);
+                if (_this.props.title !== undefined)
+                    (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.setTitle(_this.props.title);
             }
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.fullscreen) !== _this.props.fullscreen) {
-                (_b = _this.winBoxObj) === null || _b === void 0 ? void 0 : _b.fullscreen(_this.props.fullscreen);
+                if (_this.props.fullscreen !== undefined)
+                    (_b = _this.winBoxObj) === null || _b === void 0 ? void 0 : _b.fullscreen(_this.props.fullscreen);
             }
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.min) !== _this.props.min) {
-                (_c = _this.winBoxObj) === null || _c === void 0 ? void 0 : _c.minimize(_this.props.min);
+                if (_this.props.min !== undefined)
+                    (_c = _this.winBoxObj) === null || _c === void 0 ? void 0 : _c.minimize(_this.props.min);
             }
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.max) !== _this.props.max) {
-                (_d = _this.winBoxObj) === null || _d === void 0 ? void 0 : _d.maximize(_this.props.max);
+                if (_this.props.max !== undefined)
+                    (_d = _this.winBoxObj) === null || _d === void 0 ? void 0 : _d.maximize(_this.props.max);
             }
             if (force
                 || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.width) !== _this.props.width
@@ -133,9 +116,9 @@ var WinBox = /** @class */ (function (_super) {
                 (_q = _this.winBoxObj) === null || _q === void 0 ? void 0 : _q.move();
             }
             if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.url) !== _this.props.url) {
-                (_r = _this.winBoxObj) === null || _r === void 0 ? void 0 : _r.setUrl(_this.props.url);
+                if (_this.props.url !== undefined)
+                    (_r = _this.winBoxObj) === null || _r === void 0 ? void 0 : _r.setUrl(_this.props.url);
             }
-            _this.renderChildren();
             _this.maintainStyle();
         };
         _this.handleClose = function () {
@@ -158,15 +141,14 @@ var WinBox = /** @class */ (function (_super) {
             if (this.props.id !== undefined && this.props.id !== null && document.getElementById(this.props.id))
                 throw 'duplicated window id';
             this.winBoxObj = new winbox_1.default(__assign(__assign({ width: 300, height: 200, top: 0, bottom: 0, left: 0, right: 0 }, this.props), { class: "".concat((_a = this.props.className) !== null && _a !== void 0 ? _a : ''), onClose: function () {
-                    var _a, _b, _c;
-                    if ((_c = (_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a)) !== null && _c !== void 0 ? _c : true) { // the default is true
-                        _this.handleClose(); // only when ture, do close process.
+                    var _a, _b;
+                    if ((_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a)) {
                         return true;
                     }
+                    _this.handleClose(); // only when false, do close process.
                     return false;
                 } }));
-            this.renderChildren();
-            this.maintainStyle();
+            this.forceUpdate();
         }
         catch (e) {
             console.error(e);
@@ -179,7 +161,10 @@ var WinBox = /** @class */ (function (_super) {
     };
     WinBox.prototype.componentWillUnmount = function () {
         var _a;
-        (_a = this.winBoxObj) === null || _a === void 0 ? void 0 : _a.close(true);
+        try {
+            (_a = this.winBoxObj) === null || _a === void 0 ? void 0 : _a.close(true);
+        }
+        catch (ignored) { }
     };
     WinBox.prototype.forceUpdate = function (callback) {
         var _a;
@@ -194,7 +179,11 @@ var WinBox = /** @class */ (function (_super) {
         _super.prototype.forceUpdate.call(this, callback);
     };
     WinBox.prototype.render = function () {
-        return ((0, jsx_runtime_1.jsx)("div", { "data-closed": this.state.closed }));
+        if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
+            return null; // do nothing if url is set.
+        if (!this.winBoxObj || !this.winBoxObj.body)
+            return null;
+        return react_dom_1.default.createPortal((0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, { children: this.props.children }), this.winBoxObj.body);
     };
     return WinBox;
 }(react_1.Component));

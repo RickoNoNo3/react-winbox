@@ -1,9 +1,9 @@
-import React, {Component, ReactChild, ReactElement, ReactNode} from 'react';
+import React, {Component, ReactElement} from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
-import ReactDOM, {Container, render, Renderer} from 'react-dom';
+import ReactDOM, {Container, Renderer} from 'react-dom';
 
-type WinBoxPropType = {
+export type WinBoxPropType = {
   title: string
   id?: string
   children?: ReactElement | ReactElement[] | null
@@ -43,12 +43,14 @@ type WinBoxPropType = {
   fullscreen?: boolean,
 
   /**
+   * This callback is called BEFORE the winbox goes to close process. So if you want to destroy the React WinBox component in it, be sure to wrap destroy actions within `setTimeout` so that they occur after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`
+   *
    * see the following document for more detail about the argument and the return value.
    * @see https://github.com/nextapps-de/winbox
    * @param force whether you should not abort the winbox to close.
-   * @return canBeClosed - true if the winbox can be closed
+   * @return noDefaultClose - true if the winbox does not need the default close process, for example, when it needs a confirmation to close instead of being closed suddenly.
    */
-  onclose?: (force?: boolean) => boolean,
+  onclose?: (force?: boolean) => boolean | undefined | void,
   onmove?: (x: number, y: number) => any,
   onresize?: (width: number, height: number) => any,
   onblur?: () => any,
@@ -99,15 +101,14 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
         ...this.props,
         class: `${this.props.className ?? ''}`,
         onClose: () => {
-          if (this.props.onclose?.() ?? true) { // the default is true
-            this.handleClose(); // only when ture, do close process.
+          if (this.props.onclose?.()) {
             return true;
           }
+          this.handleClose(); // only when false, do close process.
           return false;
         },
       });
-      this.renderChildren();
-      this.maintainStyle();
+      this.forceUpdate();
     } catch (e) {
       console.error(e);
       this.winBoxObj?.close(true);
@@ -120,7 +121,9 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   }
 
   componentWillUnmount() {
-    this.winBoxObj?.close(true);
+    try {
+      this.winBoxObj?.close(true);
+    } catch (ignored) {}
   }
 
   public forceUpdate(callback?: () => void): void {
@@ -145,25 +148,6 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
 
   public isClosed = (): boolean => (this.state.closed);
 
-  renderChildren = () => {
-    if (!this.winBoxObj) return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
-    if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
-      return; // do nothing if url is set.
-    if (/*!this.reactRoot ||*/ this.reactRootTarget !== this.winBoxObj.body) {
-      // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
-      this.reactRootTarget = this.winBoxObj.body;
-    }
-    if (this.props.children) {
-      if (Array.isArray(this.props.children)) {
-        const children = this.props.children as ReactElement[];
-        ReactDOM.render(children ?? [], this.reactRootTarget ?? null);
-      } else {
-        const children = this.props.children as ReactElement;
-        ReactDOM.render(children, this.reactRootTarget ?? null);
-      }
-    }
-  };
-
   maintainStyle = () => {
     if (!this.winBoxObj) return;
     this.winBoxObj[this.props.noAnimation ? 'addClass' : 'removeClass']('no-animation');
@@ -183,16 +167,20 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
     if (!this.winBoxObj) return;
     const {force, prevProps} = args ?? {};
     if (force || prevProps?.title !== this.props.title) {
-      this.winBoxObj?.setTitle(this.props.title);
+      if (this.props.title !== undefined)
+        this.winBoxObj?.setTitle(this.props.title);
     }
     if (force || prevProps?.fullscreen !== this.props.fullscreen) {
-      this.winBoxObj?.fullscreen(this.props.fullscreen);
+      if (this.props.fullscreen !== undefined)
+        this.winBoxObj?.fullscreen(this.props.fullscreen);
     }
     if (force || prevProps?.min !== this.props.min) {
-      this.winBoxObj?.minimize(this.props.min);
+      if (this.props.min !== undefined)
+        this.winBoxObj?.minimize(this.props.min);
     }
     if (force || prevProps?.max !== this.props.max) {
-      this.winBoxObj?.maximize(this.props.max);
+      if (this.props.max !== undefined)
+        this.winBoxObj?.maximize(this.props.max);
     }
     if (force
       || prevProps?.width !== this.props.width
@@ -227,9 +215,9 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
       this.winBoxObj?.move();
     }
     if (force || prevProps?.url !== this.props.url) {
-      this.winBoxObj?.setUrl(this.props.url);
+      if (this.props.url !== undefined)
+        this.winBoxObj?.setUrl(this.props.url);
     }
-    this.renderChildren();
     this.maintainStyle();
   };
 
@@ -240,9 +228,11 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   };
 
   render() {
-    return (
-      <div data-closed={this.state.closed}/>
-    );
+    if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
+      return null; // do nothing if url is set.
+    if (!this.winBoxObj || !this.winBoxObj.body)
+      return null;
+    return ReactDOM.createPortal(<>{this.props.children}</>, this.winBoxObj.body);
   }
 }
 

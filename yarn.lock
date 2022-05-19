@@ -62,17 +62,17 @@
   "resolved" "https://registry.npmmirror.com/@types/prop-types/-/prop-types-15.7.5.tgz"
   "version" "15.7.5"
 
-"@types/react-dom@^16.0.11":
-  "integrity" "sha512-FIX2AVmPTGP30OUJ+0vadeIFJJ07Mh1m+U0rxfgyW34p3rTlXI+nlenvAxNn4BP36YyI9IJ/+UJ7Wu22N1pI7A=="
-  "resolved" "https://registry.npmjs.org/@types/react-dom/-/react-dom-16.9.14.tgz"
-  "version" "16.9.14"
+"@types/react-dom@^18.0.4":
+  "integrity" "sha512-FgTtbqPOCI3dzZPZoC2T/sx3L34qxy99ITWn4eoSA95qPyXDMH0ALoAqUp49ITniiJFsXUVBtalh/KffMpg21Q=="
+  "resolved" "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.0.4.tgz"
+  "version" "18.0.4"
   dependencies:
-    "@types/react" "^16"
+    "@types/react" "*"
 
-"@types/react@^16", "@types/react@^16.0.41":
-  "integrity" "sha512-cXRVHd7vBT5v1is72mmvmsg9stZrbJO04DJqFeh3Yj2tVKO6vmxg5BI+ybI6Ls7ROXRG3aFbZj9x0WA3ZAoDQw=="
-  "resolved" "https://registry.npmjs.org/@types/react/-/react-16.14.25.tgz"
-  "version" "16.14.25"
+"@types/react@*", "@types/react@^18.0.9":
+  "integrity" "sha512-9bjbg1hJHUm4De19L1cHiW0Jvx3geel6Qczhjd0qY5VKVE2X5+x77YxAepuCwVh4vrgZJdgEJw48zrhRIeF4Nw=="
+  "resolved" "https://registry.npmjs.org/@types/react/-/react-18.0.9.tgz"
+  "version" "18.0.9"
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -1072,7 +1072,7 @@
   "resolved" "https://registry.npmmirror.com/queue-microtask/-/queue-microtask-1.2.3.tgz"
   "version" "1.2.3"
 
-"react-dom@^16.14.0":
+"react-dom@>=16.14.0":
   "integrity" "sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-16.14.0.tgz"
   "version" "16.14.0"
@@ -1087,7 +1087,7 @@
   "resolved" "https://registry.npmmirror.com/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
-"react@^16.14.0":
+"react@^16.14.0", "react@>=16.14.0":
   "integrity" "sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.14.0.tgz"
   "version" "16.14.0"

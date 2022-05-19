@@ -41,15 +41,27 @@ import WinBox from 'react-winbox';
 Or you can do more one step, to make a genuine 'windows manager', just like:
 
 ```tsx
-const [windows, setWindows] = useState();
+const [windows, setWindows] = useState([]);
 // ...
 // some code to maintain a list of necessary windows info...
 // ...
+const handleClose = (id) => {
+  let state = [...windows];
+  const index = state.findIndex(info => info.id === id);
+  if (index !== -1) {
+    state.splice(index, 1);
+    setTimeout(() => setWindows(state));
+  }
+};
 return (
   <>
     {windows.map(info => (
-      // assign any prop you want to WinBox
-      <WinBox {...info.neededProps}>
+      <WinBox 
+        key={info.id} 
+        id={info.id} 
+        onclose={() => handleClose(info.id)}
+        {...info.neededProps} // assign any props you want to WinBox
+      >
         <div>Some children</div>
       </WinBox>
     ))}
@@ -60,6 +72,7 @@ return (
 ## Notice
 - To open a winbox, just create it in your virtual DOM, that's enough.
 - To close a winbox, just do not render it. It's safe.
+- `onclose` is called BEFORE the winbox goes to close process. So if you want to destroy the React WinBox component in it, be sure to wrap destroy actions within `setTimeout` so that they occur after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`.
 - To change some properties of the window, just change the properties of WinBox Component. (the properties need [official methods](https://github.com/nextapps-de/winbox#manage-window-content) support. BTW, don't forget to setState or forceUpdate to rerender the parent of the WinBox!)
 - If you want to operate the pure WinBox.js object manually (In winbox@0.2.1, it's needed only when you want to call `mount()` method), you can find a `winBoxObj` in the component ref. !!! Take care of the relationship of statement between WinBox Component and `winBoxObj`.
 
@@ -75,7 +88,7 @@ return (
 type WinBoxPropType = {
   title: string
   id?: string
-  children?: ReactChild | Iterable<ReactNode> | null
+  children?: ReactElement | ReactElement[] | null
   url?: string // When you use this, the children elements will be ignored.
 
   noAnimation?: boolean,

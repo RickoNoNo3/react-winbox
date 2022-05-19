@@ -1,7 +1,7 @@
-import { Component, ReactElement } from 'react';
+import React, { Component, ReactElement } from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
-declare type WinBoxPropType = {
+export declare type WinBoxPropType = {
     title: string;
     id?: string;
     children?: ReactElement | ReactElement[] | null;
@@ -36,12 +36,14 @@ declare type WinBoxPropType = {
     width?: string | number;
     fullscreen?: boolean;
     /**
+     * This callback is called BEFORE the winbox goes to close process. So if you want to destroy the React WinBox component in it, be sure to wrap destroy actions within `setTimeout` so that they occur after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`
+     *
      * see the following document for more detail about the argument and the return value.
      * @see https://github.com/nextapps-de/winbox
      * @param force whether you should not abort the winbox to close.
-     * @return canBeClosed - true if the winbox can be closed
+     * @return noDefaultClose - true if the winbox does not need the default close process, for example, when it needs a confirmation to close instead of being closed suddenly.
      */
-    onclose?: (force?: boolean) => boolean;
+    onclose?: (force?: boolean) => boolean | undefined | void;
     onmove?: (x: number, y: number) => any;
     onresize?: (width: number, height: number) => any;
     onblur?: () => any;
@@ -72,13 +74,12 @@ declare class WinBox extends Component<WinBoxPropType, WinBoxState> {
     isMax: () => boolean;
     isMin: () => boolean;
     isClosed: () => boolean;
-    renderChildren: () => void;
     maintainStyle: () => void;
     maintain: (args?: {
         force?: boolean | undefined;
         prevProps?: WinBoxPropType | undefined;
     } | undefined) => void;
     handleClose: () => void;
-    render(): JSX.Element;
+    render(): React.ReactPortal | null;
 }
 export default WinBox;
