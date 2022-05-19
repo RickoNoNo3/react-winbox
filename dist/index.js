@@ -50,24 +50,6 @@ var WinBox = /** @class */ (function (_super) {
         _this.isMax = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.max) !== null && _b !== void 0 ? _b : false); };
         _this.isMin = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.min) !== null && _b !== void 0 ? _b : false); };
         _this.isClosed = function () { return (_this.state.closed); };
-        //renderChildren = () => {
-        //  if (!this.winBoxObj) return; // because of twice calling in the strictMode, there can't be a `!this.state.closed`
-        //  if (Object.keys(this.props).indexOf('url') !== -1 && this.props.url)
-        //    return; // do nothing if url is set.
-        //  if (/*!this.reactRoot ||*/ this.reactRootTarget !== this.winBoxObj.body) {
-        //    // this.reactRoot = hydrateRoot(this.winBoxObj.body, this.props.children); // downgraded
-        //    this.reactRootTarget = this.winBoxObj.body;
-        //  }
-        //  if (this.props.children) {
-        //    if (Array.isArray(this.props.children)) {
-        //      const children = this.props.children as ReactElement[];
-        //      ReactDOM.render(children ?? [], this.reactRootTarget ?? null);
-        //    } else {
-        //      const children = this.props.children as ReactElement;
-        //      ReactDOM.render(children, this.reactRootTarget ?? null);
-        //    }
-        //  }
-        //};
         _this.maintainStyle = function () {
             if (!_this.winBoxObj)
                 return;
@@ -137,7 +119,6 @@ var WinBox = /** @class */ (function (_super) {
                 if (_this.props.url !== undefined)
                     (_r = _this.winBoxObj) === null || _r === void 0 ? void 0 : _r.setUrl(_this.props.url);
             }
-            // this.renderChildren();
             _this.maintainStyle();
         };
         _this.handleClose = function () {
@@ -160,15 +141,13 @@ var WinBox = /** @class */ (function (_super) {
             if (this.props.id !== undefined && this.props.id !== null && document.getElementById(this.props.id))
                 throw 'duplicated window id';
             this.winBoxObj = new winbox_1.default(__assign(__assign({ width: 300, height: 200, top: 0, bottom: 0, left: 0, right: 0 }, this.props), { class: "".concat((_a = this.props.className) !== null && _a !== void 0 ? _a : ''), onClose: function () {
-                    var _a, _b, _c;
-                    if ((_c = (_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a)) !== null && _c !== void 0 ? _c : true) {
+                    var _a, _b;
+                    if ((_b = (_a = _this.props).onclose) === null || _b === void 0 ? void 0 : _b.call(_a)) {
                         return true;
                     }
                     _this.handleClose(); // only when false, do close process.
                     return false;
                 } }));
-            // this.renderChildren();
-            // this.maintainStyle();
             this.forceUpdate();
         }
         catch (e) {
