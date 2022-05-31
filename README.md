@@ -72,9 +72,9 @@ return (
 ## Notice
 - To open a winbox, just create it in your virtual DOM, that's enough.
 - To close a winbox, just do not render it. It's safe.
-- `onclose` is called BEFORE the winbox goes to close process. So if you want to destroy the React WinBox component in it, be sure to wrap destroy actions within `setTimeout` so that they occur after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`.
-- To change some properties of the window, just change the properties of WinBox Component. (the properties need [official methods](https://github.com/nextapps-de/winbox#manage-window-content) support. BTW, don't forget to setState or forceUpdate to rerender the parent of the WinBox!)
-- If you want to operate the pure WinBox.js object manually (In winbox@0.2.1, it's needed only when you want to call `mount()` method), you can find a `winBoxObj` in the component ref. !!! Take care of the relationship of statement between WinBox Component and `winBoxObj`.
+- `onclose` is called BEFORE the winbox goes to the close process. So if you want to destroy the React WinBox component in it, be sure to wrap destroy actions within `setTimeout` so that they occur after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`.
+- To change some properties of the window, just change the properties of the WinBox Component. (the properties need [official methods](https://github.com/nextapps-de/winbox#manage-window-content) support. BTW, don't forget to setState or forceUpdate to rerender the parent of the WinBox!)
+- If you want to operate the pure WinBox.js object manually (In winbox@0.2.1, it's needed only when you want to call the `mount()` method), you can find a `winBoxObj` in the component ref. !!! Take care of the relationship of statement between WinBox Component and `winBoxObj`.
 
 ## Props and Methods
 
@@ -82,7 +82,7 @@ return (
 
 ### Props
 
-> the most props are one-to-one corresponding to the params of WinBox.js.
+> most props are one-to-one corresponding to the params of WinBox.js.
 
 ```ts
 type WinBoxPropType = {
@@ -138,13 +138,13 @@ type WinBoxPropType = {
 ```ts
 focus () => void // same as the native method.
 
-getId () => string | undefined // a wrapper getter for id field
+getId () => string | undefined // a wrapper getter for the id field
 
 isMax () => boolean // a wrapper getter for max field
 
 isMin () => boolean // a wrapper getter for min field
 
-isClosed () => boolean // REACT ONLY. Returns true if the winbox DOM element has been removed but the React component not yet.
+isClosed () => boolean // REACT ONLY. Returns true if the winbox DOM element has been removed but the React component has not yet.
 
 forceUpdate (callback?: () => void): void // REACT ONLY.
 
