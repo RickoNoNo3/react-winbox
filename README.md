@@ -19,7 +19,7 @@ yarn add react-winbox
 
 ## Usage
 
-> To use WinBox, ensure the document body has an initial non-zero height, e.g. `100vh`.
+> Ensure the document body has an initial non-zero height, e.g. `100vh`.
 
 ```jsx
 import WinBox from 'react-winbox';
@@ -70,6 +70,7 @@ return (
 ```
 
 ## Notice
+- To use React-WinBox, ensure the document body has an initial non-zero height, e.g. `100vh`.
 - To open a winbox, just create it in your virtual DOM, that's enough.
 - To close a winbox, just do not render it. It's safe.
 - `onclose` is called BEFORE the winbox goes to the close process. So if you want to destroy the React WinBox component in it, be sure to wrap destroy actions within `setTimeout` so that they occur after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`.
