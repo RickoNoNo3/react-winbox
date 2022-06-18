@@ -41,25 +41,30 @@ import WinBox from 'react-winbox';
 Or you can do more one step, to make a genuine 'windows manager', just like:
 
 ```tsx
-const [windows, setWindows] = useState([]);
 // ...
 // some code to maintain a list of necessary windows info...
 // ...
-const handleClose = (id) => {
+const [windows, setWindows] = useState([]);
+
+// This function is for manage `onclose` callback behavior and virtual DOM state.
+const handleClose = (force, id) => {
   let state = [...windows];
   const index = state.findIndex(info => info.id === id);
   if (index !== -1) {
+    if (state[index].onclose && state[index].onclose(force))
+      return true;                       // window-specific onclose, returns true if it does not need the default close process.
     state.splice(index, 1);
-    setTimeout(() => setWindows(state));
+    setTimeout(() => setWindows(state)); // (Notice 5)to change winbox showing state in `onclose`, MUST wrap it within `setTimeout`
   }
 };
+
 return (
   <>
     {windows.map(info => (
       <WinBox 
         key={info.id} 
         id={info.id} 
-        onclose={() => handleClose(info.id)}
+        onclose={(force) => handleClose(force, info.id)}
         {...info.neededProps} // assign any props you want to WinBox
       >
         <div>Some children</div>
@@ -74,7 +79,7 @@ return (
 2. To open a winbox, just create it in your virtual DOM, that's enough.
 3. To close a winbox, just do not render it. It's safe. The winbox will be closed automatically, and it will call the `onclose` callback once with `force=true` param. If the winbox DOM has been closed by users before, WinBox Component will do nothing and just be removed off the virtual DOM.
 4. `onclose` is called BEFORE the winbox DOM goes to the close process. In the program-side closing case (Notice 3), it may be insignificant. But if you want to use it to block the closing by users who pressed the close button (such as when there is something editable which has not been saved), it's useful.
-5. When `onclose` is called, the winbox DOM has NOT been removed. If it is not triggered by the program but by users, you may want to change the WinBox Component rendering state. Be sure to wrap state destroy actions within `setTimeout` so that they occur after the winbox DOM is truly removed，e.g. `setTimeout(() => this.setState({showWindow: false}))`. Otherwise, the program-side closing (Notice 3) will overlie the user-side closing (Notice 4). That's cause trouble. See the `handleClose` function in [the second usage](#Usage) for more about a completely safe state management behavior for both program-side and user-side closing.
+5. When `onclose` is called, the winbox DOM has NOT been removed. You may want to change the WinBox Component rendering state. Be sure to wrap state destroy actions within `setTimeout` so that they occur after the winbox DOM is truly removed，e.g. `setTimeout(() => this.setState({showWindow: false}))`. Otherwise, the program-side closing (Notice 3) will overlie the user-side closing (Notice 4). That's cause trouble. See the `handleClose` function in [the second usage](#Usage) for more about a completely safe state management behavior for both program-side and user-side closing.
 6. To change some properties of the window, just change the properties of the WinBox Component. (the properties need [official methods](https://github.com/nextapps-de/winbox#manage-window-content) support. BTW, don't forget to setState or forceUpdate to rerender the parent of the WinBox!)
 7. If you want to operate the pure WinBox.js object manually (In winbox@0.2.1, it's needed only when you want to call the `mount()` method), you can find a `winBoxObj` in the component ref. !!! Take care of the relationship of statement between WinBox Component and `winBoxObj`.
 
@@ -123,6 +128,8 @@ type WinBoxPropType = {
   width?: string | number,
   fullscreen?: boolean, // a wrapper prop for fullscreen() method
 
+  // returns true if the winbox does not need the default close process, for example, when it needs a confirmation to close instead of being closed suddenly.
+  // the param `force` indicates whether you should not abort the winbox to close. If it is true, you MUST return false or empty, or some problems will happen.
   onclose?: (force: boolean) => boolean | undefined | void,
   onmove?: (x: number, y: number) => any,
   onresize?: (width: number, height: number) => any,
