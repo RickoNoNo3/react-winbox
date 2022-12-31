@@ -25,12 +25,35 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_runtime_1 = require("react/jsx-runtime");
-var react_1 = require("react");
+var react_1 = __importStar(require("react"));
 var winbox_1 = __importDefault(require("winbox/src/js/winbox"));
 require("winbox/dist/css/winbox.min.css");
 var react_dom_1 = __importDefault(require("react-dom"));
@@ -45,6 +68,11 @@ var WinBox = /** @class */ (function (_super) {
     __extends(WinBox, _super);
     function WinBox(props) {
         var _this = _super.call(this, props) || this;
+        _this.cdmCount = 0;
+        _this.checkReactVersionGE18 = function () {
+            var a = parseInt(react_1.default.version.split('.')[0]);
+            return (a >= 18);
+        };
         _this.focus = function () { var _a; return ((_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.focus()); };
         _this.getId = function () { var _a; return ((_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.id); };
         _this.isMax = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.max) !== null && _b !== void 0 ? _b : false); };
@@ -134,6 +162,11 @@ var WinBox = /** @class */ (function (_super) {
     WinBox.prototype.componentDidMount = function () {
         var _this = this;
         var _a, _b;
+        this.cdmCount++;
+        if (this.checkReactVersionGE18()) { // strict mode safe
+            if (this.cdmCount >= 2)
+                return;
+        }
         try {
             if (this.props.id !== undefined && this.props.id !== null && document.getElementById(this.props.id))
                 throw 'duplicated window id';
@@ -157,9 +190,20 @@ var WinBox = /** @class */ (function (_super) {
         this.maintain({ prevProps: prevProps });
     };
     WinBox.prototype.componentWillUnmount = function () {
+        var _this = this;
         var _a;
         try {
-            (_a = this.winBoxObj) === null || _a === void 0 ? void 0 : _a.close(true);
+            if (this.checkReactVersionGE18()) { // strict mode safe (depends on the timeout of 200ms, in low performance enviroments may crash.)
+                setTimeout(function () {
+                    var _a;
+                    if (_this.cdmCount <= 1) {
+                        (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.close(true);
+                    }
+                }, 200);
+            }
+            else { // less than 18, keep old code
+                (_a = this.winBoxObj) === null || _a === void 0 ? void 0 : _a.close(true);
+            }
         }
         catch (ignored) { }
     };

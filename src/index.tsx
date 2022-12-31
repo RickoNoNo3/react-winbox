@@ -1,4 +1,4 @@
-import React, {Component, ReactElement} from 'react';
+import React, { Component, ReactElement } from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
 import ReactDOM from 'react-dom';
@@ -72,6 +72,11 @@ type WinBoxState = {
  */
 class WinBox extends Component<WinBoxPropType, WinBoxState> {
   public winBoxObj: OriginalWinBox;
+  private cdmCount = 0;
+  private checkReactVersionGE18 = (): boolean => {
+    const a = parseInt(React.version.split('.')[0]);
+    return (a >= 18);
+  }
 
   constructor(props) {
     super(props);
@@ -82,6 +87,10 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
   }
 
   componentDidMount() {
+    this.cdmCount++;
+    if (this.checkReactVersionGE18()) { // strict mode safe
+      if (this.cdmCount >= 2) return;
+    }
     try {
       if (this.props.id !== undefined && this.props.id !== null && document.getElementById(this.props.id))
         throw 'duplicated window id';
@@ -106,27 +115,35 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
     } catch (e) {
       console.error(e);
       this.winBoxObj?.close(true);
-      this.setState({closed: true});
+      this.setState({ closed: true });
     }
   }
 
   componentDidUpdate(prevProps: Readonly<WinBoxPropType>, prevState: Readonly<WinBoxState>) {
-    this.maintain({prevProps});
+    this.maintain({ prevProps });
   }
 
   componentWillUnmount() {
     try {
-      this.winBoxObj?.close(true);
-    } catch (ignored) {}
+      if (this.checkReactVersionGE18()) { // strict mode safe (depends on the timeout of 200ms, in low performance enviroments may crash.)
+        setTimeout(() => {
+          if (this.cdmCount <= 1) {
+            this.winBoxObj?.close(true);
+          }
+        }, 200);
+      } else { // less than 18, keep old code
+        this.winBoxObj?.close(true);
+      }
+    } catch (ignored) { }
   }
 
   public forceUpdate(callback?: () => void): void {
     try {
-      this.maintain({force: true});
+      this.maintain({ force: true });
     } catch (e) {
       console.error(e);
       this.winBoxObj?.close(true);
-      this.setState({closed: true});
+      this.setState({ closed: true });
     }
 
     super.forceUpdate(callback);
@@ -157,9 +174,9 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
     this.winBoxObj[this.props.hide ? 'addClass' : 'removeClass']('hide');
   };
 
-  maintain = (args ?: { force?: boolean, prevProps?: WinBoxPropType }) => {
+  maintain = (args?: { force?: boolean, prevProps?: WinBoxPropType }) => {
     if (!this.winBoxObj) return;
-    const {force, prevProps} = args ?? {};
+    const { force, prevProps } = args ?? {};
     if (force || prevProps?.title !== this.props.title) {
       if (this.props.title !== undefined)
         this.winBoxObj?.setTitle(this.props.title);
@@ -217,7 +234,7 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
 
   handleClose = () => {
     this.winBoxObj = undefined;
-    this.setState({closed: true});
+    this.setState({ closed: true });
   };
 
   render() {
