@@ -12,7 +12,7 @@
   "types": "dist/index.d.ts",
   "license": "MIT",
   "dependencies": {
-    "winbox": "^0.2.1"
+    "winbox": "^0.2.6"
   },
   "peerDependencies": {
     "react": ">=16.14.0",
@@ -21,7 +21,6 @@
   "devDependencies": {
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
-    "@types/winbox": "^0.2.1",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "eslint-plugin-react": "^7.29.4",

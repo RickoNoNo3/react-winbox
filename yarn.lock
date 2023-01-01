@@ -54,11 +54,6 @@
   "resolved" "https://registry.npmmirror.com/@types/scheduler/-/scheduler-0.16.2.tgz"
   "version" "0.16.2"
 
-"@types/winbox@^0.2.1":
-  "integrity" "sha512-fN/UQjitix7v3yDmpvzKSnDyKIiOhU5LdAj5Wcf/eRpGapoLwBELAwvVZY/2OBw23PyPKwGZ07oZxBHyIO/e3A=="
-  "resolved" "https://registry.npmjs.org/@types/winbox/-/winbox-0.2.1.tgz"
-  "version" "0.2.1"
-
 "@typescript-eslint/eslint-plugin@^5.19.0":
   "integrity" "sha512-w59GpFqDYGnWFim9p6TGJz7a3qWeENJuAKCqjGSx+Hq/bwq3RZwXYqy98KIfN85yDqz9mq6QXiY5h0FjGQLyEg=="
   "resolved" "https://registry.npmmirror.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.19.0.tgz"
@@ -864,10 +859,10 @@
     "is-string" "^1.0.5"
     "is-symbol" "^1.0.3"
 
-"winbox@^0.2.1":
-  "integrity" "sha512-K3PY+y+aWpkCpECGF2TqSi4w+OT+cuJHWbOKBjVerpexmdC6Is5m4y0gZ9rbxU2K+GszE1nH+d2okMAQTG05hg=="
-  "resolved" "https://registry.npmjs.org/winbox/-/winbox-0.2.1.tgz"
-  "version" "0.2.1"
+"winbox@^0.2.6":
+  "integrity" "sha512-P/Tqjcf4bA0Hr1lqR1YliQsisV8xf+t56xgCtqWN8Urw9RLonYSVQGYw+qILp9tgkPs1o7e1dsl6dskaS6GudQ=="
+  "resolved" "https://registry.npmjs.org/winbox/-/winbox-0.2.6.tgz"
+  "version" "0.2.6"
 
 "yallist@^4.0.0":
   "integrity" "sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A=="
