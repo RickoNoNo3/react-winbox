@@ -14,7 +14,7 @@ demo: <https://react-winbox.vercel.app>
 ![demo screenshot](https://github.com/RickoNoNo3/react-winbox/blob/main/demo.jpg)
 
 > For users who in react-winbox@<=1.4: 
-> - After v1.5, we striped the imports of css files, and they need to be import by users themselves now. See our demo and the [usage](#usage).
+> - After v1.5, we striped the imports of css files, and they need to be imported by users themselves now. See our demo and the [usage](#usage).
 > - some props were deprecated.
 
 ## Install
