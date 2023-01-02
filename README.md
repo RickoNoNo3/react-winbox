@@ -74,7 +74,7 @@ return (
       <WinBox 
         key={info.id} 
         id={info.id} 
-        onclose={(force) => handleClose(force, info.id)}
+        onClose={(force) => handleClose(force, info.id)}
         {...info.neededProps} // assign any props you want to WinBox
       >
         <div>Some children</div>
