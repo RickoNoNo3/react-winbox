@@ -30,6 +30,9 @@ yarn add react-winbox
 > Ensure the document body has an initial non-zero height, e.g. `100vh`.
 
 ```jsx
+import 'winbox/dist/css/winbox.min.css'; // required
+import 'winbox/dist/css/themes/modern.min.css'; // optional
+import 'winbox/dist/css/themes/white.min.css'; // optional
 import WinBox from 'react-winbox';
 
 <WinBox
