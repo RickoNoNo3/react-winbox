@@ -3,7 +3,7 @@
 <a target="_blank" href="https://www.npmjs.com/package/react-winbox"><img src="https://img.shields.io/npm/v/react-winbox?style=flat-square"></a>
 <!--![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rickonono3/react-winbox/Node.js%20CI/main?style=flat-square)-->
 
-A React controlled component for [WinBox.js](https://github.com/nextapps-de/winbox), with full Reactful props and state. Includes all configuration of WinBox.js by using React component props.
+A React controlled component for [WinBox.js](https://github.com/nextapps-de/winbox), with full Reactful props and state. Includes all configurations of WinBox.js by using React component props.
 
 **Full type declaration for both JavaScript and TypeScript.**
 
@@ -82,6 +82,7 @@ return (
 ```
 
 ## Notice
+
 - To use WinBox, ensure the document body has an initial non-zero height, e.g. 100vh.
 - To open a winbox, just create it in your virtual DOM, that's enough.
 - To close a winbox, just do not render it. It's safe.
@@ -95,7 +96,7 @@ return (
 
 ### Props
 
-> the most props are one-to-one corresponding to the params of WinBox.js.
+> most props are one-to-one corresponding to the params of WinBox.js.
 
 ```ts
 type WinBoxPropType = {
@@ -236,4 +237,4 @@ hide () => void // prop `hide`
 show () => void // prop `hide`
 ```
 
-> Thanks for your reading. If any question or problem, feel free to issue it.
+> Thanks for your reading. If any questions or problems, feel free to issue them.
