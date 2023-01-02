@@ -9,6 +9,8 @@ A React controlled component for [WinBox.js](https://github.com/nextapps-de/winb
 
 ## Play the [Demo](https://react-winbox.vercel.app)
 
+demo: <https://react-winbox.vercel.app>
+
 ![demo screenshot](https://github.com/RickoNoNo3/react-winbox/blob/main/demo.jpg)
 
 > For users who in react-winbox@<=1.4: 
