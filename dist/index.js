@@ -27,11 +27,7 @@ var __assign = (this && this.__assign) || function () {
 };
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -55,7 +51,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_runtime_1 = require("react/jsx-runtime");
 var react_1 = __importStar(require("react"));
 var winbox_1 = __importDefault(require("winbox/src/js/winbox"));
-require("winbox/dist/css/winbox.min.css");
 var react_dom_1 = __importDefault(require("react-dom"));
 /**
  * # WinBox React Component
@@ -283,7 +278,7 @@ var WinBox = /** @class */ (function (_super) {
                 throw 'duplicated window id';
             this.winBoxObj = winbox_1.default.new(__assign(__assign({ width: 300, height: 200, top: 0, bottom: 0, left: 0, right: 0, hidden: this.props.hide }, this.props), { 
                 // 👇override values
-                minwidth: (_a = this.props.minWidth) !== null && _a !== void 0 ? _a : 150, maxwidth: (_b = this.props.maxWidth) !== null && _b !== void 0 ? _b : 2147483647, minheight: (_c = this.props.minHeight) !== null && _c !== void 0 ? _c : 35, maxheight: (_d = this.props.maxHeight) !== null && _d !== void 0 ? _d : 2147483647, max: false, min: false, fullscreen: false, class: "".concat((_e = this.props.className) !== null && _e !== void 0 ? _e : ''), onclose: function (force) {
+                minwidth: (_a = this.props.minWidth) !== null && _a !== void 0 ? _a : 150, maxwidth: (_b = this.props.maxWidth) !== null && _b !== void 0 ? _b : 2147483647, minheight: (_c = this.props.minHeight) !== null && _c !== void 0 ? _c : 35, maxheight: (_d = this.props.maxHeight) !== null && _d !== void 0 ? _d : 2147483647, max: false, min: false, fullscreen: false, class: "" + ((_e = this.props.className) !== null && _e !== void 0 ? _e : ''), onclose: function (force) {
                     var _a, _b, _c, _d;
                     if ((_b = (_a = _this.props).onClose) === null || _b === void 0 ? void 0 : _b.call(_a, force !== null && force !== void 0 ? force : false)) {
                         return true;
@@ -346,7 +341,7 @@ var WinBox = /** @class */ (function (_super) {
             return null; // do nothing if url is set.
         if (!this.winBoxObj || !this.winBoxObj.body)
             return null;
-        return react_dom_1.default.createPortal((0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, { children: this.props.children }), this.winBoxObj.body);
+        return react_dom_1.default.createPortal(jsx_runtime_1.jsx(jsx_runtime_1.Fragment, { children: this.props.children }, void 0), this.winBoxObj.body);
     };
     return WinBox;
 }(react_1.Component));

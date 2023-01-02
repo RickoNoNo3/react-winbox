@@ -9,6 +9,8 @@ A React controlled component for [WinBox.js](https://github.com/nextapps-de/winb
 
 ![demo screenshot](https://github.com/RickoNoNo3/react-winbox/blob/main/demo.jpg)
 
+## Play the [Demo]()
+
 ## Install
 
 ```bash
@@ -22,6 +24,8 @@ yarn add react-winbox
 To use WinBox, ensure the document body has an initial non-zero height, e.g. `100vh`.
 
 ```jsx
+import 'winbox/dist/css/winbox.min.css'; // required
+import 'winbox/dist/css/themes/modern.min.css'; // optional
 import WinBox from 'react-winbox';
 
 <WinBox
@@ -70,11 +74,11 @@ return (
 ```
 
 ## Notice
-- To open a winbox, just create it in your virtual DOM, that's enough.
-- To close a winbox, just do not render it. It's safe.
-- `onclose` is called BEFORE the winbox goes to close process. So if you want to destroy the React WinBox component in it, be sure to wrap destroy actions within `setTimeout` so that they occur after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`.
-- To change some properties of the window, just change the properties of WinBox Component. (the properties need [official methods](https://github.com/nextapps-de/winbox#manage-window-content) support. BTW, don't forget to setState or forceUpdate to rerender the parent of the WinBox!)
-- If you want to operate the pure WinBox.js object manually (In winbox@0.2.1, it's needed only when you want to call `mount()` method), you can find a `winBoxObj` in the component ref. !!! Take care of the relationship of statement between WinBox Component and `winBoxObj`.
+1. To open a winbox, just create it in your virtual DOM, that's enough.
+2. To close a winbox, just do not render it. It's safe.
+3. `onclose` is called BEFORE the winbox goes to close process. It is easy to block a closing for some unsaved data or giving a confirmation to user to close (see the doc to get more info). However, if you do not want to block the closing, but want to destroy the React WinBox component, be sure to wrap destroying actions within `setTimeout` so that they occur after the winbox.js DOM is truly closed, e.g. `setTimeout(() => setShowWindow(false))`.
+4. To change some properties of the winbox DOM, just change the component's properties. The properties need [official methods](https://github.com/nextapps-de/winbox#overview) support. We suggest that all states you want to control of the winbox should be listened for changes and keep controlled, such as `width` state with `onResize` callback. But if you do not have such listeners, you can call the `forceUpdate` method from refs to keep the winbox status in control as well.
+5. If you want to operate the pure WinBox.js object manually, you can find a `winBoxObj` in the component ref. It's needed only when you want to call `mount()` method.
 
 ## Props and Methods
 
