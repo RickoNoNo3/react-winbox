@@ -859,7 +859,7 @@
     "is-string" "^1.0.5"
     "is-symbol" "^1.0.3"
 
-"winbox@^0.2.6":
+"winbox@=0.2.6":
   "integrity" "sha512-P/Tqjcf4bA0Hr1lqR1YliQsisV8xf+t56xgCtqWN8Urw9RLonYSVQGYw+qILp9tgkPs1o7e1dsl6dskaS6GudQ=="
   "resolved" "https://registry.npmjs.org/winbox/-/winbox-0.2.6.tgz"
   "version" "0.2.6"
