@@ -115,7 +115,7 @@ var WinBox = /** @class */ (function (_super) {
             return undefined;
         };
         _this.isFocused = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.focused) !== null && _b !== void 0 ? _b : false); };
-        _this.isHidden = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.isHidden) !== null && _b !== void 0 ? _b : false); };
+        _this.isHidden = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.hidden) !== null && _b !== void 0 ? _b : false); };
         _this.isMax = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.max) !== null && _b !== void 0 ? _b : false); };
         _this.isMin = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.min) !== null && _b !== void 0 ? _b : false); };
         _this.isFullscreen = function () { var _a, _b; return ((_b = (_a = _this.winBoxObj) === null || _a === void 0 ? void 0 : _a.full) !== null && _b !== void 0 ? _b : false); };
@@ -245,6 +245,19 @@ var WinBox = /** @class */ (function (_super) {
                     }
                 }
             }
+            if (force || (prevProps === null || prevProps === void 0 ? void 0 : prevProps.customControls) !== _this.props.customControls
+                && !deepEqual(prevProps === null || prevProps === void 0 ? void 0 : prevProps.customControls, _this.props.customControls)) {
+                if ((prevProps === null || prevProps === void 0 ? void 0 : prevProps.customControls) != undefined) {
+                    prevProps.customControls
+                        .filter(function (o) { return typeof o === 'object' && o.class; })
+                        .forEach(function (o) { return _this.winBoxObj.removeControl(o.class); });
+                }
+                if (_this.props.customControls != undefined) {
+                    _this.props.customControls
+                        .filter(function (o) { return typeof o === 'object' && o.class; })
+                        .forEach(function (o) { return _this.winBoxObj.addControl(o); });
+                }
+            }
             _this.maintainStyle();
         };
         _this.handleClose = function () {
@@ -338,3 +351,8 @@ var WinBox = /** @class */ (function (_super) {
     return WinBox;
 }(react_1.Component));
 exports.default = WinBox;
+function deepEqual(x, y) {
+    var ok = Object.keys, tx = typeof x, ty = typeof y;
+    return x && y && tx === 'object' && tx === ty ? (ok(x).length === ok(y).length &&
+        ok(x).every(function (key) { return deepEqual(x[key], y[key]); })) : (x === y);
+}

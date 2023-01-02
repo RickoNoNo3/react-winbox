@@ -1,6 +1,15 @@
 import React, { Component, ReactElement } from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
 import 'winbox/dist/css/winbox.min.css';
+export declare type WinBoxControlInfo = {
+    /** Index to jump into native controls. If no index assigned, custum controls will be arranged side-by-side automatically on the left of native controls*/
+    index?: number;
+    /** a name to identify the button, can also style it by using css, may starts with `wb-` */
+    class: string;
+    /** an image resource same like icon prop */
+    image: string;
+    click?: () => void;
+};
 export declare type WinBoxPropType = {
     title?: string;
     /**
@@ -96,6 +105,11 @@ export declare type WinBoxPropType = {
     onRestore?: () => any;
     onHide?: () => any;
     onShow?: () => any;
+    /**
+     * an array of WinBoxControlInfo
+     * @see https://github.com/nextapps-de/winbox#custom-controls
+     */
+    customControls?: WinBoxControlInfo[];
 };
 declare type WinBoxState = {
     closed: boolean;

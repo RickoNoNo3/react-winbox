@@ -1,7 +1,16 @@
 import React, { Component, ReactElement } from 'react';
 import OriginalWinBox from 'winbox/src/js/winbox';
-import 'winbox/dist/css/winbox.min.css';
 import ReactDOM from 'react-dom';
+
+export type WinBoxControlInfo = {
+  /** Index to jump into native controls. If no index assigned, custum controls will be arranged side-by-side automatically on the left of native controls*/
+  index?: number
+  /** a name to identify the button, can also style it by using css, may starts with `wb-` */
+  class: string
+  /** an image resource same like icon prop */
+  image: string
+  click?: () => void,
+}
 
 export type WinBoxPropType = {
   title?: string
@@ -61,7 +70,7 @@ export type WinBoxPropType = {
   width?: string | number,
 
   /**
-   * This callback is called BEFORE the winbox goes to close process. So if you want to destroy the React WinBox component in it, be sure to wrap destroy actions within `setTimeout` so that they occur after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`
+   * This callback is called BEFORE the winbox goes to close process. So if you want to destroy the React WinBox component while it is triggered, be sure to wrap destroying actions within `setTimeout` so that they occur after the winbox.js DOM is truly closed，e.g. `setTimeout(() => setState({showWindow: false}))`
    *
    * see the following document for more detail about the argument and the return value.
    * @see https://github.com/nextapps-de/winbox
@@ -106,6 +115,12 @@ export type WinBoxPropType = {
   onRestore?: () => any,
   onHide?: () => any,
   onShow?: () => any,
+
+  /**
+   * an array of WinBoxControlInfo
+   * @see https://github.com/nextapps-de/winbox#custom-controls
+   */
+  customControls?: WinBoxControlInfo[],
 }
 
 type WinBoxState = {
@@ -419,6 +434,19 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
         }
       }
     }
+    if (force || prevProps?.customControls !== this.props.customControls
+      && !deepEqual(prevProps?.customControls, this.props.customControls)) {
+      if (prevProps?.customControls != undefined) {
+        prevProps.customControls
+          .filter(o => typeof o === 'object' && o.class)
+          .forEach(o => this.winBoxObj.removeControl(o.class));
+      }
+      if (this.props.customControls != undefined) {
+        this.props.customControls
+          .filter(o => typeof o === 'object' && o.class)
+          .forEach(o => this.winBoxObj.addControl(o));
+      }
+    }
     this.maintainStyle();
   };
 
@@ -437,3 +465,11 @@ class WinBox extends Component<WinBoxPropType, WinBoxState> {
 }
 
 export default WinBox;
+
+function deepEqual(x: any, y: any) {
+  const ok = Object.keys, tx = typeof x, ty = typeof y;
+  return x && y && tx === 'object' && tx === ty ? (
+    ok(x).length === ok(y).length &&
+    ok(x).every(key => deepEqual(x[key], y[key]))
+  ) : (x === y);
+}
