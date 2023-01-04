@@ -11,11 +11,9 @@ A React controlled component for [WinBox.js](https://github.com/nextapps-de/winb
 
 demo: <https://react-winbox.vercel.app>
 
-![demo screenshot](https://github.com/RickoNoNo3/react-winbox/blob/main/demo.jpg)
+-----
 
-> For users who in react-winbox@<=1.4: 
-> - After v1.5, we striped the imports of css files, and they need to be imported by users themselves now. See our demo and the [usage](#usage).
-> - some props were deprecated.
+![demo screenshot](https://github.com/RickoNoNo3/react-winbox/blob/main/demo.jpg)
 
 ## Install
 
@@ -26,6 +24,13 @@ yarn add react-winbox
 ```
 
 ## Usage
+
+### Help for different situations
+
+- [Use in Next.js](#use-in-next)
+- [Upgrade from versions <=1.4](#upgrade)
+
+### Examples
 
 > Ensure the document body has an initial non-zero height, e.g. `100vh`.
 
@@ -241,3 +246,40 @@ show () => void // prop `hide`
 ```
 
 > Thanks for your reading. If any questions or problems, feel free to issue them.
+
+-----
+
+# Extra Helps
+## Use in Next
+To use `react-winbox` in Next.js, there are some special steps:
+1. install `react-winbox` (must >= v1.5.0) into your project.
+2. ([Source](https://github.com/RickoNoNo3/react-winbox/issues/10#issuecomment-1348653226)) install `next-transpile-modules`, and change the `next.config.js` to:  
+```js
+const withTM = require('next-transpile-modules')([
+  'react-winbox',
+]);
+module.exports = withTM({
+  // additional webpack configurations
+});
+```
+3. in `_app.js`:  
+```js
+import 'winbox/dist/css/winbox.min.css';
+import 'winbox/dist/css/themes/modern.min.css'; // optional
+import 'winbox/dist/css/themes/white.min.css'; // optional
+```
+4. in files you want to use `react-winbox`:  
+```jsx
+//import WinBox from 'react-winbox'; // do not use this, use below:
+import dynamic from 'next/dynamic';
+const WinBox = dynamic(() => import('react-winbox'), {ssr: false});
+```
+
+All is OK, start coding now!
+
+## Upgrade
+For old versions upgrading to v1.5.x, these things deserve attention:
+- **All old versions have bugs in React 18+, but v1.5+ do not.**
+- CSS files need to be imported manually. See [example 1](#examples).
+- All props are camel-cased, use `onClose` instead of `onclose`.
+- `splitscreen` has been removed, some props and methods were added.
