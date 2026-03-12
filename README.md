@@ -3,6 +3,8 @@
 <a target="_blank" href="https://www.npmjs.com/package/react-winbox"><img src="https://img.shields.io/npm/v/react-winbox?style=flat-square"></a>
 <!--![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rickonono3/react-winbox/Node.js%20CI/main?style=flat-square)-->
 
+> NOTICE: This repo is now used for applying [Codex for Open Source](https://openai.com/form/codex-for-oss/), with the email `hcdou63@gmail.com` associated with our ChatGPT account.
+
 A React controlled component for [WinBox.js](https://github.com/nextapps-de/winbox), with full Reactful props and state, including all configurations of WinBox.js by utilizing React component props.
 
 **Full type declaration for both JavaScript and TypeScript.**
